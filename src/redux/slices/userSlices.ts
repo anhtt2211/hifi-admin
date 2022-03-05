@@ -1,28 +1,43 @@
+import { ListParams, ListResponse } from '@/models/common';
+import { User } from '@/models/user';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
 interface UserState {
-  name: string;
-  old: number;
+  loading?: boolean;
+  list: User[];
 }
 
 const initialState: UserState = {
-  name: '',
-  old: 18,
+  loading: false,
+  list: [],
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    createUser: (state, action: PayloadAction<UserState>) => {
-      state.name = action.payload.name;
-      state.old = action.payload.old;
+    fetchAllUsersRequest: (state, action: PayloadAction<ListParams>) => {
+      state.loading = true;
+    },
+    fetchAllUsersSuccess: (
+      state,
+      action: PayloadAction<ListResponse<User>>,
+    ) => {
+      state.loading = false;
+      state.list = action.payload.data;
+    },
+    fetchAllUsersFailed: (state, action: PayloadAction<string>) => {
+      state.loading = false;
     },
   },
 });
 
-export const { createUser } = userSlice.actions;
+export const {
+  fetchAllUsersSuccess,
+  fetchAllUsersRequest,
+  fetchAllUsersFailed,
+} = userSlice.actions;
 
 export const $users = (state: RootState) => state.users;
 
