@@ -1,12 +1,9 @@
-import { User } from '@/components/user';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { AppLayout } from '@/components/layout/index';
+import { adminRoutes } from '@/routes/adminRoutes';
 import React from 'react';
 
 export default function App() {
-  const users = useAppSelector((state) => state.users);
-  const dispatch = useAppDispatch();
+  console.log({ adminRoutes });
 
-  console.log({ users });
-
-  return <User />;
+  return <AppLayout routes={adminRoutes} />;
 }

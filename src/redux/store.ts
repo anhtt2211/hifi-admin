@@ -15,13 +15,13 @@ const rootReducers = combineReducers({
   users: userReducer,
 });
 
+const sagaMiddleware = createSagaMiddleware();
+
 const store = configureStore({
   reducer: rootReducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware, routerMiddleware(history)),
 });
-
-const sagaMiddleware = createSagaMiddleware();
 
 sagaMiddleware.run(rootSaga);
 
