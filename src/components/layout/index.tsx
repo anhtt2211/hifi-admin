@@ -3,6 +3,7 @@ import { IRoute } from '@/models/route';
 import ProLayout from '@ant-design/pro-layout';
 import React, { useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
+import logo from '@/logo.png';
 
 type Props = {
   routes?: IRoute[];
@@ -51,6 +52,7 @@ export const AppLayout = ({ routes }: Props) => {
             return menuItems;
           },
         }}
+        logo={logo}
       >
         <div>
           <Routes>

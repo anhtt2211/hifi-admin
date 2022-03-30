@@ -7,4 +7,8 @@ export const menuItems = [
     path: '/users',
     name: 'Users',
   },
+  {
+    path: '/categories',
+    name: 'Category',
+  },
 ];
