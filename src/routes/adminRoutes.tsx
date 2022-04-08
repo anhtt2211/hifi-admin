@@ -1,6 +1,7 @@
 import { IRoute } from '@/models/route';
 import { Welcome } from '@/pages';
-import Category from '@/pages/category';
+import Categories from '@/pages/categories';
+import CategoryDetails from '@/pages/categories/[id]';
 import { UserPage } from '@/pages/users/index';
 import React from 'react';
 
@@ -15,10 +16,14 @@ export const adminRoutes: IRoute[] = [
   },
   {
     path: '/categories',
-    page: <Category />,
+    page: <Categories />,
+  },
+  {
+    path: '/categories/edit/:id',
+    page: <Categories />,
   },
   {
     path: '/categories/:id',
-    page: <Category />,
+    page: <CategoryDetails />,
   },
 ];

@@ -46,12 +46,7 @@ export const AppLayout = ({ routes }: Props) => {
             {dom}
           </NavLink>
         )}
-        menu={{
-          request: async () => {
-            await waitTime(1000);
-            return menuItems;
-          },
-        }}
+        route={menuItems}
         logo={logo}
       >
         <div>

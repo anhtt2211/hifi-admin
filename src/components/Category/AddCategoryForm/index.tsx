@@ -94,7 +94,7 @@ const AddCategoryForm = (props: Props) => {
 
   return (
     <Card>
-      <h2>{isEdit ? 'Edit category' : 'Add category'}</h2>
+      <h3 className="heading"> {isEdit ? 'Edit category' : 'Add category'}</h3>
       <Form
         form={form}
         layout="vertical"

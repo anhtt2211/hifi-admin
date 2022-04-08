@@ -12,7 +12,7 @@ import { Category } from '@/types';
 import categorytApi from '@/api/categoryApi';
 import confirm from 'antd/lib/modal/confirm';
 import { deteteImage } from '@/firebase/services';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Props {
   data: Array<Category>;
@@ -20,6 +20,8 @@ interface Props {
 }
 
 const CategoryTable = (props: Props) => {
+  const navigate = useNavigate();
+
   const columns: ColumnsType<Category> = [
     {
       title: 'ID',
@@ -33,14 +35,21 @@ const CategoryTable = (props: Props) => {
       title: '',
       dataIndex: '_id',
       align: 'center',
-      render: (_id: string) => {
+      render: (_id: string, category) => {
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Tooltip title="View details">
-              <Button type="primary" ghost icon={<EyeOutlined />} />
+              <Button
+                type="primary"
+                ghost
+                icon={<EyeOutlined />}
+                onClick={() =>
+                  navigate(`/categories/${_id}`, { state: category })
+                }
+              />
             </Tooltip>
             <Tooltip title="Edit">
-              <Link to={`/categories/${_id}`}>
+              <Link to={`/categories/edit/${_id}`}>
                 <Button type="default" icon={<EditOutlined />} />
               </Link>
             </Tooltip>
@@ -59,12 +68,13 @@ const CategoryTable = (props: Props) => {
 
   const handleDelete = (id: string) => {
     confirm({
-      title: 'Do you want to delete this course?',
+      title: 'Do you want to delete this category?',
       icon: <ExclamationCircleOutlined />,
       centered: true,
       content: '',
       async onOk() {
-        const { data } = await categorytApi.deleteCategory(id);
+        const res = await categorytApi.deleteCategory(id);
+        const { data } = res.data;
         deteteImage(data.imageUrl);
         const tmp = props.data.filter((e: any) => e._id != id);
         props.setData(tmp);

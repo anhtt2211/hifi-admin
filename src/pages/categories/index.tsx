@@ -5,13 +5,13 @@ import { Category } from '@/types';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const Category = () => {
+const Categories = () => {
   const [data, setData] = useState<Array<Category>>([]);
 
   useEffect(() => {
     categorytApi
       .getAllCategories()
-      .then((res) => setData(res.data))
+      .then((res) => setData(res.data.data))
       .catch((err) => console.log(err));
   }, []);
 
@@ -30,4 +30,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Categories;
