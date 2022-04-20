@@ -2,8 +2,8 @@ import { IRoute } from '@/models/route';
 import { Welcome } from '@/pages';
 import Categories from '@/pages/categories';
 import CategoryDetails from '@/pages/categories/[id]';
+import { Recruiters } from '@/pages/recruiters';
 import { UserPage } from '@/pages/users/index';
-import React from 'react';
 
 export const adminRoutes: IRoute[] = [
   {
@@ -25,5 +25,10 @@ export const adminRoutes: IRoute[] = [
   {
     path: '/categories/:id',
     page: <CategoryDetails />,
+  },
+  {
+    path: '/recruiters',
+    exact: true,
+    page: <Recruiters />,
   },
 ];

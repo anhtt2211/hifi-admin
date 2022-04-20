@@ -12,5 +12,10 @@ export const menuItems = {
       path: '/categories',
       name: 'Category',
     },
+    {
+      name: 'Recruiters',
+      path: '/recruiters',
+      exact: true,
+    },
   ],
 };
