@@ -1,17 +1,17 @@
 import { Avatar, Col, Divider, Row, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import React, { FC } from 'react';
-import socket from '../../../../api/socket';
+import socket from '@/utils/socket';
 import styles from './index.module.less';
 
-interface Props {
+interface IProps {
   lastMessage: Message;
   roomId: string;
   user: User;
   selected: boolean;
 }
 
-const ChatUserItem: FC<Props> = (props) => {
+const ChatUserItem: FC<IProps> = (props) => {
   const { user, roomId, lastMessage, selected } = props;
   const userId = '6255931ff19b3638879e3303';
 
@@ -34,11 +34,11 @@ const ChatUserItem: FC<Props> = (props) => {
           />
         </Col>
         <Col span={19}>
-          <Typography.Title level={5} style={{ marginBottom: '0px' }}>
+          <Typography.Title level={5} className={styles.title}>
             {user.name}
           </Typography.Title>
           <Row>
-            <Typography.Text ellipsis={true} style={{ fontSize: '14px' }}>
+            <Typography.Text ellipsis={true} className={styles.text}>
               {userId === lastMessage.userId ? 'You: ' : ''}
               {lastMessage.content}
             </Typography.Text>
@@ -49,7 +49,7 @@ const ChatUserItem: FC<Props> = (props) => {
                 'YYYY-MM-DD HH:mm:ss',
               )}
             >
-              <Typography.Text style={{ fontSize: '12px' }}>
+              <Typography.Text className={styles.time}>
                 {moment(lastMessage.createdAt).fromNow()}
               </Typography.Text>
             </Tooltip>

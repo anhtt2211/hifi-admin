@@ -1,14 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setRoomsState } from '@/redux/slices/chattingSlices';
-import moment from 'moment';
 import React, { FC, useEffect, useState } from 'react';
-import socket from '../../../../api/socket';
+import socket from '@/utils/socket';
 import ChatItem from './ChatItem';
 import styles from './index.module.less';
 
-interface Props {}
+interface IProps {}
 
-const ChatBoxContent: FC<Props> = (props) => {
+const ChatBoxContent: FC<IProps> = (props) => {
   const dispatch = useAppDispatch();
   const chatting = useAppSelector((state) => state.chatting);
   const [messageList, setMessageList] = useState<Message[]>([]);
@@ -36,7 +35,7 @@ const ChatBoxContent: FC<Props> = (props) => {
               isMine={message.userId === userId}
               message={message.content}
               date={message.createdAt}
-            ></ChatItem>
+            />
           );
         })}
       </div>

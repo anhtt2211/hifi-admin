@@ -4,7 +4,7 @@ import { Badge, Button, Descriptions, Modal, Tag } from 'antd';
 import React, { FC } from 'react';
 import { openNotification } from '../../../utils/notification';
 
-interface Props {
+interface IProps {
   visible: boolean;
   handleCancel: () => void;
   data: any;
@@ -13,7 +13,7 @@ interface Props {
   setLoading: (loading: boolean) => void;
 }
 
-const ApprovalDialog: FC<Props> = (props) => {
+const ApprovalDialog: FC<IProps> = (props) => {
   const { visible, handleCancel, data, canApprove, loading, setLoading } =
     props;
 

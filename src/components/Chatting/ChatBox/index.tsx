@@ -7,11 +7,11 @@ import ChatBoxHeader from './ChatBoxHeader';
 import ChatBoxInput from './ChatBoxInput';
 import styles from './index.module.less';
 
-interface Props {
+interface IProps {
   setVisibleDrawer: Function;
 }
 
-const ChatBox: FC<Props> = (props) => {
+const ChatBox: FC<IProps> = (props) => {
   const { setVisibleDrawer } = props;
   const chatting = useAppSelector((state) => state.chatting);
   const [room, setRoom] = useState<Room>();

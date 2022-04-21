@@ -4,14 +4,14 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Input, Typography } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import roomApi from '../../../api/roomApi';
-import socket from '../../../api/socket';
+import socket from '@/utils/socket';
 import ChatUserItem from './ChatUserItem';
 import styles from './index.module.less';
 const { Title } = Typography;
 
-interface Props {}
+interface IProps {}
 
-const SideNav: FC<Props> = (props) => {
+const SideNav: FC<IProps> = (props) => {
   const userId = '6255931ff19b3638879e3303';
   const [rooms, setRooms] = useState<Room[]>([]);
   const [currentroom, setCurrentRoom] = useState<Room>();

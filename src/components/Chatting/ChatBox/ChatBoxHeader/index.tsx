@@ -3,12 +3,12 @@ import { Avatar, Button, Col, Row, Typography } from 'antd';
 import React, { FC } from 'react';
 import styles from './index.module.less';
 
-interface Props {
+interface IProps {
   chatter?: User;
   setVisibleDrawer: Function;
 }
 
-const ChatBoxHeader: FC<Props> = (props) => {
+const ChatBoxHeader: FC<IProps> = (props) => {
   const { chatter, setVisibleDrawer } = props;
 
   const handleVisible = () => {
@@ -18,19 +18,19 @@ const ChatBoxHeader: FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <Row align="middle">
-        <Col md={2} xs={4}>
+        <Col md={3} xs={4}>
           <Avatar
             src="https://joeschmoe.io/api/v1/random"
             alt="Han Solo"
             className={styles.avatar}
           />
         </Col>
-        <Col md={4} xs={8}>
-          <Typography.Title level={5} style={{ marginBottom: '0px' }}>
+        <Col md={6} sm={8} xs={8}>
+          <Typography.Title level={5} className={styles.title}>
             {chatter?.name}
           </Typography.Title>
         </Col>
-        <Col md={0} sm={4} xs={4} offset={8}>
+        <Col md={0} sm={2} xs={2} offset={10}>
           <Button
             shape="circle"
             type="primary"

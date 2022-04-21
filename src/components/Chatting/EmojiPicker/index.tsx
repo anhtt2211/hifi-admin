@@ -1,12 +1,8 @@
-import React, { FC } from 'react';
-import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
-import { Modal, Popconfirm } from 'antd';
-import styles from './index.module.less';
+import 'emoji-mart/css/emoji-mart.css';
+import React, { FC } from 'react';
 
-const { confirm } = Modal;
-
-interface Props {
+interface IProps {
   visible: boolean;
   handleCancel: Function;
   handleAddEmoji: Function;
@@ -25,27 +21,14 @@ interface EmojiData {
   native: string;
 }
 
-const EmojiPicker: FC<Props> = (props) => {
-  const { visible, handleCancel, handleAddEmoji } = props;
+const EmojiPicker: FC<IProps> = (props) => {
+  const { handleAddEmoji } = props;
 
   const handleSelect = (emoji: EmojiData) => {
     handleAddEmoji(emoji.native);
   };
 
-  return (
-    // <Modal
-    //   closable={false}
-    //   visible={visible}
-    //   onCancel={() => {
-    //     handleCancel();
-    //   }}
-    //   width="400px"
-    //   footer={null}
-    // >
-    //   <Picker set="google" onSelect={handleSelect} />
-    // </Modal>
-    <Picker set="google" onSelect={handleSelect} />
-  );
+  return <Picker set="google" onSelect={handleSelect} />;
 };
 
 export default EmojiPicker;

@@ -4,14 +4,14 @@ import styles from './index.module.less';
 import moment from 'moment';
 import Linkify from 'react-linkify';
 
-interface Props {
+interface IProps {
   // avatar: string;
   message: string;
   date: string;
   isMine: boolean;
 }
 
-const ChatItem: FC<Props> = (props) => {
+const ChatItem: FC<IProps> = (props) => {
   const { isMine, message, date } = props;
 
   return (

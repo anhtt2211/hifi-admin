@@ -1,17 +1,16 @@
 import { SendOutlined } from '@ant-design/icons';
-import { Button, Col, Input, Row } from 'antd';
-import React, { FC, useState } from 'react';
-import styles from './index.module.less';
-import socket from '../../../../api/socket';
-import EmojiPicker from '../../EmojiPicker';
-import moment from 'moment';
+import { Button, Input } from 'antd';
 import { Picker } from 'emoji-mart';
+import moment from 'moment';
+import React, { FC, useState } from 'react';
+import socket from '@/utils/socket';
+import styles from './index.module.less';
 
-interface Props {
+interface IProps {
   roomId?: string;
 }
 
-const ChatBoxInput: FC<Props> = (props) => {
+const ChatBoxInput: FC<IProps> = (props) => {
   const { roomId } = props;
   const [value, setValue] = useState('');
   const [showPicker, setShowPicker] = useState(false);
@@ -26,10 +25,6 @@ const ChatBoxInput: FC<Props> = (props) => {
       },
     });
     setValue('');
-  };
-
-  const handleClosePicker = () => {
-    setShowPicker(false);
   };
 
   const handleAddEmoji = (emoji: string) => {

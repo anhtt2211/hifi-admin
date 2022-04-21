@@ -4,11 +4,11 @@ import ProLayout from '@ant-design/pro-layout';
 import React, { useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 
-type Props = {
+type IProps = {
   routes?: IRoute[];
 };
 
-export const AppLayout = ({ routes }: Props) => {
+export const AppLayout = ({ routes }: IProps) => {
   const [pathname, setPathname] = useState(window.location.pathname);
 
   const waitTime = (time: number = 100) => {

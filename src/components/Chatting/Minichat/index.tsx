@@ -1,14 +1,14 @@
-import { Message, Room } from '@/types';
 import React, { FC, useEffect, useState } from 'react';
 import { addResponseMessage, addUserMessage, Widget } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import io from 'socket.io-client';
 import moment from 'moment';
-interface Props {}
+
+interface IProps {}
 
 const socket = io(import.meta.env.VITE_SERVER_URL);
 
-const Minichat: FC<Props> = (props) => {
+const Minichat: FC<IProps> = (props) => {
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [roomId, setRoomId] = useState('');
 
@@ -24,7 +24,7 @@ const Minichat: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    socket.on('sendDataServer', (data: Message) => {
+    socket.on('sendDataServer', (data: Room) => {
       setMessageList(data.messages);
     });
 
@@ -50,13 +50,15 @@ const Minichat: FC<Props> = (props) => {
   }, [messageList]);
 
   return (
-    <Widget
-      emojis
-      showTimeStamp={false}
-      showBadge
-      handleNewUserMessage={handleNewUserMessage}
-      subtitle="Connect with admin"
-    />
+    <div>
+      {/* <Widget
+        emojis
+        showTimeStamp={false}
+        showBadge
+        handleNewUserMessage={handleNewUserMessage}
+        subtitle="Connect with admin"
+      /> */}
+    </div>
   );
 };
 
