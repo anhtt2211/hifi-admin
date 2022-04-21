@@ -14,12 +14,12 @@ import confirm from 'antd/lib/modal/confirm';
 import { deteteImage } from '@/firebase/services';
 import { Link, useNavigate } from 'react-router-dom';
 
-interface Props {
+interface IProps {
   data: Array<Category>;
   setData: Function;
 }
 
-const CategoryTable = (props: Props) => {
+const CategoryTable = (props: IProps) => {
   const navigate = useNavigate();
 
   const columns: ColumnsType<Category> = [

@@ -7,12 +7,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ImageFileUpload from '../ImageFileUpload';
 
-interface Props {
+interface IProps {
   data: Array<Category>;
   setData: Function;
 }
 
-const AddCategoryForm = (props: Props) => {
+const AddCategoryForm = (props: IProps) => {
   const [form] = Form.useForm();
   let { id } = useParams();
   const [category, setCategory] = useState<Category>();

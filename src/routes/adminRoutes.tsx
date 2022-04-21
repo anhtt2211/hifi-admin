@@ -1,7 +1,7 @@
 import { IRoute } from '@/models/route';
 import { Welcome } from '@/pages';
 import Categories from '@/pages/categories';
-import CategoryDetails from '@/pages/categories/[id]';
+import CategoryDetails from '@/pages/categories/subcategories';
 import { Recruiters } from '@/pages/recruiters';
 import { UserPage } from '@/pages/users/index';
 

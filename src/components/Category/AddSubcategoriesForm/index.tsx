@@ -6,7 +6,7 @@ import Button from 'antd/es/button/button';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-interface Props {
+interface IProps {
   setIsLoading: Function;
 }
 
@@ -28,7 +28,7 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const AddSubcategoriesForm = (props: Props) => {
+const AddSubcategoriesForm = (props: IProps) => {
   const [form] = Form.useForm();
   const { id } = useParams();
   const handleSubmit = () => {

@@ -22,11 +22,11 @@ import confirm from 'antd/lib/modal/confirm';
 import { subcategorytApi } from '@/api';
 import { useLocation, useParams } from 'react-router-dom';
 
-interface Props {
+interface IProps {
   isLoading: Boolean;
 }
 
-const SubcategoryTable = (props: Props) => {
+const SubcategoryTable = (props: IProps) => {
   const [data, setData] = useState<Array<Subcategory>>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState<Subcategory>();
