@@ -33,17 +33,18 @@ const EmojiPicker: FC<Props> = (props) => {
   };
 
   return (
-    <Modal
-      closable={false}
-      visible={visible}
-      onCancel={() => {
-        handleCancel();
-      }}
-      width="400px"
-      footer={null}
-    >
-      <Picker set="google" onSelect={handleSelect} />
-    </Modal>
+    // <Modal
+    //   closable={false}
+    //   visible={visible}
+    //   onCancel={() => {
+    //     handleCancel();
+    //   }}
+    //   width="400px"
+    //   footer={null}
+    // >
+    //   <Picker set="google" onSelect={handleSelect} />
+    // </Modal>
+    <Picker set="google" onSelect={handleSelect} />
   );
 };
 

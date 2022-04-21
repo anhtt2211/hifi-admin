@@ -1,5 +1,5 @@
 import companyApi from '@/api/companyApi';
-import { ApprovalDiglog } from '@/components/recruiters/ApprovalDialog';
+import ApprovalDialog from '@/components/recruiters/ApprovalDialog';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import {
   Breadcrumb,
@@ -47,7 +47,7 @@ interface Industry {
   _id: string;
 }
 
-export const Recruiters = () => {
+const Recruiters = () => {
   const [visible, setVisible] = useState(false);
   const [dataSource, setDataSource] = useState<Company[]>();
   const [selectedCompany, setSelectedCompany] = useState<Company>();
@@ -259,14 +259,16 @@ export const Recruiters = () => {
           {!isMobile && renderStatusRadio()}
         </Row>
       </Card>
-      <ApprovalDiglog
+      <ApprovalDialog
         setLoading={setLoading}
         loading={loading}
         canApprove={canApprove}
         data={selectedCompany}
         visible={visible}
         handleCancel={handleClose}
-      ></ApprovalDiglog>
+      ></ApprovalDialog>
     </>
   );
 };
+
+export default Recruiters;

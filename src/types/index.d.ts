@@ -14,5 +14,3 @@ type Room = {
   messages: Message[];
   chatters: User[];
 };
-
-export type { Message, User, Room };

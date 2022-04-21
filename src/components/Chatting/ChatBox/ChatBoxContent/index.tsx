@@ -1,36 +1,30 @@
-import { Message, Room } from '@/types';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { setRoomsState } from '@/redux/slices/chattingSlices';
 import moment from 'moment';
 import React, { FC, useEffect, useState } from 'react';
 import socket from '../../../../api/socket';
 import ChatItem from './ChatItem';
 import styles from './index.module.less';
-interface Props {
-  newMessage: string;
-  room: Room;
-}
+
+interface Props {}
 
 const ChatBoxContent: FC<Props> = (props) => {
-  const { newMessage, room } = props;
+  const dispatch = useAppDispatch();
+  const chatting = useAppSelector((state) => state.chatting);
   const [messageList, setMessageList] = useState<Message[]>([]);
   const userId = '6255931ff19b3638879e3303';
 
   useEffect(() => {
-    socket.on('sendDataServer', (data: Message) => {
-      setMessageList((pre) => [...pre, data]);
+    socket.on('sendDataServer', (data: Room) => {
+      dispatch(setRoomsState(data));
     });
   }, [socket]);
 
   useEffect(() => {
-    setMessageList(room.messages);
-  }, [room]);
-
-  useEffect(() => {
-    newMessage != '' &&
-      setMessageList([
-        ...messageList,
-        { userId, content: newMessage, createdAt: moment().format() },
-      ]);
-  }, [newMessage]);
+    if (chatting.room) {
+      setMessageList(chatting.room?.messages);
+    }
+  }, [chatting]);
 
   return (
     <div className={styles.container}>

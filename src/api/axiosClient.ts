@@ -6,7 +6,11 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-axiosClient.interceptors.request.use();
+
+axiosClient.interceptors.request.use(function (config) {
+  return config;
+});
+
 axiosClient.interceptors.response.use();
 
 export default axiosClient;

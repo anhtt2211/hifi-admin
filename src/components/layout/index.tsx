@@ -52,13 +52,11 @@ export const AppLayout = ({ routes }: Props) => {
           },
         }}
       >
-        <div>
-          <Routes>
-            {routes?.map((route) => (
-              <Route key={route.path} path={route.path} element={route.page} />
-            ))}
-          </Routes>
-        </div>
+        <Routes>
+          {routes?.map((route) => (
+            <Route key={route.path} path={route.path} element={route.page} />
+          ))}
+        </Routes>
       </ProLayout>
     </div>
   );

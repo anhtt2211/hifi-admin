@@ -1,3 +1,4 @@
+import Minichat from '@/components/Chatting/Minichat';
 import { AppLayout } from '@/components/layout/index';
 import { adminRoutes } from '@/routes/adminRoutes';
 import { ConfigProvider } from 'antd';
@@ -8,6 +9,7 @@ export default function App() {
   return (
     <ConfigProvider locale={enUS}>
       <AppLayout routes={adminRoutes} />
+      <Minichat></Minichat>
     </ConfigProvider>
   );
 }

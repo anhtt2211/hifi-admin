@@ -1,27 +1,27 @@
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { setRoomsState } from '@/redux/slices/chattingSlices';
 import { SearchOutlined } from '@ant-design/icons';
-import { Divider, Input, Typography } from 'antd';
+import { Input, Typography } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
+import roomApi from '../../../api/roomApi';
 import socket from '../../../api/socket';
 import ChatUserItem from './ChatUserItem';
 import styles from './index.module.less';
-import roomApi from '../../../api/roomApi';
-import { Room } from '@/types';
-
 const { Title } = Typography;
 
-interface Props {
-  setRoom: Function;
-}
+interface Props {}
 
 const SideNav: FC<Props> = (props) => {
   const userId = '6255931ff19b3638879e3303';
   const [rooms, setRooms] = useState<Room[]>([]);
-  const { setRoom } = props;
-  const [roomId, setRoomId] = useState();
+  const [currentroom, setCurrentRoom] = useState<Room>();
+  const dispatch = useAppDispatch();
+  const [roomId, setRoomId] = useState<string>();
+  const chatting = useAppSelector((state) => state.chatting);
 
   useEffect(() => {
-    socket.on('sendRoom', (data: any) => {
-      setRoom(data);
+    socket.on('sendRoom', (data: Room) => {
+      setCurrentRoom(data);
       setRoomId(data._id);
     });
   }, [socket]);
@@ -36,6 +36,21 @@ const SideNav: FC<Props> = (props) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    if (currentroom) {
+      dispatch(setRoomsState(currentroom));
+    }
+  }, [currentroom]);
+
+  useEffect(() => {
+    if (chatting.room) {
+      let newRooms = rooms.map((room) =>
+        room._id === chatting.room?._id ? chatting.room : room,
+      );
+      setRooms(newRooms);
+    }
+  }, [chatting]);
 
   return (
     <>

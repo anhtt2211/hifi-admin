@@ -2,6 +2,7 @@ import { Avatar, Card, Col, Row, Typography } from 'antd';
 import React, { FC } from 'react';
 import styles from './index.module.less';
 import moment from 'moment';
+import Linkify from 'react-linkify';
 
 interface Props {
   // avatar: string;
@@ -28,10 +29,10 @@ const ChatItem: FC<Props> = (props) => {
           />
         </Col>
         <Col flex="initial">
-          <Card className={styles.bubble}>
+          <Card className={styles.bubble} bodyStyle={{ padding: '16px' }}>
             <Row justify={isMine ? 'end' : 'start'}>
               <Typography.Paragraph className={styles.content}>
-                {message}
+                <Linkify>{message}</Linkify>
               </Typography.Paragraph>
             </Row>
             <Row>

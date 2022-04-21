@@ -5,14 +5,14 @@ import styles from './index.module.less';
 import socket from '../../../../api/socket';
 import EmojiPicker from '../../EmojiPicker';
 import moment from 'moment';
+import { Picker } from 'emoji-mart';
 
 interface Props {
   roomId?: string;
-  setNewMessage: Function;
 }
 
 const ChatBoxInput: FC<Props> = (props) => {
-  const { roomId, setNewMessage } = props;
+  const { roomId } = props;
   const [value, setValue] = useState('');
   const [showPicker, setShowPicker] = useState(false);
 
@@ -26,7 +26,6 @@ const ChatBoxInput: FC<Props> = (props) => {
       },
     });
     setValue('');
-    setNewMessage(newMessage);
   };
 
   const handleClosePicker = () => {
@@ -37,10 +36,14 @@ const ChatBoxInput: FC<Props> = (props) => {
     setValue(value.concat(emoji));
   };
 
+  const handleSelect = (emoji: any) => {
+    handleAddEmoji(emoji.native);
+  };
+
   return (
     <div className={styles.container}>
       <Button
-        className={styles.btn}
+        className={[styles.btn, styles['btn-picker']].join(' ')}
         size="large"
         type="link"
         onClick={() => {
@@ -48,12 +51,27 @@ const ChatBoxInput: FC<Props> = (props) => {
         }}
       >
         🙂
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className={[
+            styles.picker,
+            !showPicker && styles['picker-hidden'],
+          ].join(' ')}
+        >
+          <Picker onSelect={handleSelect} />
+        </div>
       </Button>
-      <Input
+      <Input.TextArea
         value={value}
         placeholder="Type something..."
-        onPressEnter={(event) => {
-          handleSendMessage((event.target as HTMLInputElement).value);
+        onKeyUp={(event) => {
+          if (
+            !(event.key === 'Enter' && event.shiftKey) &&
+            event.key === 'Enter'
+          )
+            handleSendMessage((event.target as HTMLInputElement).value);
         }}
         onChange={(event) => {
           setValue(event.target.value);
@@ -68,11 +86,6 @@ const ChatBoxInput: FC<Props> = (props) => {
           handleSendMessage(value);
         }}
       />
-      <EmojiPicker
-        visible={showPicker}
-        handleCancel={handleClosePicker}
-        handleAddEmoji={handleAddEmoji}
-      ></EmojiPicker>
     </div>
   );
 };

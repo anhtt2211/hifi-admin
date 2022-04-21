@@ -1,5 +1,3 @@
-import { Recruiters } from '@/pages/recruiters';
-
 export const menuItems = [
   {
     path: '/',
@@ -12,6 +10,11 @@ export const menuItems = [
   {
     name: 'Recruiters',
     path: '/recruiters',
+    exact: true,
+  },
+  {
+    name: 'Chatting',
+    path: '/chatting',
     exact: true,
   },
 ];

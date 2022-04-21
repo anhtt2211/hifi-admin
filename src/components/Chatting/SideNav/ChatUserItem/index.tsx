@@ -1,4 +1,3 @@
-import { Message, User } from '@/types';
 import { Avatar, Col, Divider, Row, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import React, { FC } from 'react';

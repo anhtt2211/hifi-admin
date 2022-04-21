@@ -8,11 +8,13 @@ import { history } from '@/utils/history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import userReducer from './slices/userSlices';
+import chattingReducer from './slices/chattingSlices';
 import rootSaga from './rootSaga';
 
 const rootReducers = combineReducers({
   router: connectRouter(history),
   users: userReducer,
+  chatting: chattingReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

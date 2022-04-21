@@ -25,7 +25,7 @@ const Minichat: FC<Props> = (props) => {
 
   useEffect(() => {
     socket.on('sendDataServer', (data: Message) => {
-      addResponseMessage(data.content);
+      setMessageList(data.messages);
     });
 
     socket.on('sendRoom', (data: Room) => {

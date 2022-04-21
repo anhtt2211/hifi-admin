@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   css: {
     modules: {
-      localsConvention: 'camelCaseOnly',
+      // localsConvention: 'camelCaseOnly',
     },
     preprocessorOptions: {
       less: {

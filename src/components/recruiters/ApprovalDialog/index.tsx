@@ -13,7 +13,7 @@ interface Props {
   setLoading: (loading: boolean) => void;
 }
 
-export const ApprovalDiglog: FC<Props> = (props) => {
+const ApprovalDialog: FC<Props> = (props) => {
   const { visible, handleCancel, data, canApprove, loading, setLoading } =
     props;
 
@@ -163,3 +163,5 @@ export const ApprovalDiglog: FC<Props> = (props) => {
     </Modal>
   );
 };
+
+export default ApprovalDialog;
