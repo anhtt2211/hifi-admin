@@ -4,12 +4,12 @@ import { RcFile } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import React, { useState } from 'react';
 
-interface ImageFileUploadProps {
+interface IImageFileUploadProps {
   value?: RcFile[];
   onChange?: (value: RcFile[]) => void;
 }
 
-const ImageFileUpload: React.FC<ImageFileUploadProps> = ({
+const ImageFileUpload: React.FC<IImageFileUploadProps> = ({
   value,
   onChange,
 }) => {
