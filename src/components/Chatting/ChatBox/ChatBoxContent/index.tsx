@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setRoomsState } from '@/redux/slices/chattingSlices';
 import React, { FC, useEffect, useState } from 'react';
-import socket from '@/utils/socket';
+import socket from '@/utils/messageSocket';
 import ChatItem from './ChatItem';
 import styles from './index.module.less';
 

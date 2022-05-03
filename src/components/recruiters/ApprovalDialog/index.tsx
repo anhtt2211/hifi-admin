@@ -1,7 +1,10 @@
 import companyApi from '@/api/companyApi';
+import notificationSocket from '@/utils/notificationSocket';
 import { capitalizeFirstLetter } from '@/utils/string';
-import { Badge, Button, Descriptions, Modal, Tag } from 'antd';
-import React, { FC } from 'react';
+import { Badge, Button, Descriptions, Input, Modal, Tag } from 'antd';
+import TextArea from 'antd/lib/input/TextArea';
+import moment from 'moment';
+import React, { FC, useEffect, useState } from 'react';
 import { openNotification } from '../../../utils/notification';
 
 interface IProps {
@@ -16,6 +19,11 @@ interface IProps {
 const ApprovalDialog: FC<IProps> = (props) => {
   const { visible, handleCancel, data, canApprove, loading, setLoading } =
     props;
+  const userId = '6255931ff19b3638879e3303';
+
+  const [isMessageBoxVisible, setIsMessageBoxVisible] = useState(false);
+  const [type, setType] = useState('approve');
+  const [message, setMessage] = useState('');
 
   const color = [
     'magenta',
@@ -47,7 +55,7 @@ const ApprovalDialog: FC<IProps> = (props) => {
     return status?.[1];
   };
 
-  const handleApprove = (message: String) => {
+  const handleApprove = () => {
     setLoading(true);
     companyApi
       .approve(data?._id, message)
@@ -57,6 +65,9 @@ const ApprovalDialog: FC<IProps> = (props) => {
           res.message,
           'success',
         );
+
+        handleSendNoti(message);
+
         handleCancel();
       })
       .catch((error: any) => {
@@ -67,7 +78,7 @@ const ApprovalDialog: FC<IProps> = (props) => {
       });
   };
 
-  const handleReject = (message: String) => {
+  const handleReject = () => {
     setLoading(true);
     companyApi
       .reject(data?._id, message)
@@ -77,6 +88,9 @@ const ApprovalDialog: FC<IProps> = (props) => {
           res.message,
           'success',
         );
+
+        handleSendNoti(message);
+
         handleCancel();
       })
       .catch((error) => {
@@ -86,6 +100,47 @@ const ApprovalDialog: FC<IProps> = (props) => {
         setLoading(false);
       });
   };
+
+  const handleSendNoti = (message: string) => {
+    const sendData = {
+      receiverType: 'company',
+      receiver: data?._id,
+      message: message,
+      redirectUrl: import.meta.env.VITE_EMPLOYER_URL,
+      createdAt: moment(),
+    };
+
+    notificationSocket.emit('sendNotification', sendData);
+  };
+
+  const handleCancelApprove = () => {
+    setIsMessageBoxVisible(false);
+  };
+
+  const handleConfirmApprove = () => {
+    setIsMessageBoxVisible(true);
+    setType('approve');
+  };
+
+  const handleConfirmReject = () => {
+    setIsMessageBoxVisible(true);
+    setType('reject');
+  };
+
+  const handleConfirm = () => {
+    type === 'approve' ? handleApprove() : handleReject();
+    handleCancelApprove();
+  };
+
+  useEffect(() => {
+    if (data) {
+      notificationSocket.connect();
+      notificationSocket.emit('joinNotification', {
+        sender: userId,
+        receiver: data?._id,
+      });
+    }
+  }, [data]);
 
   return (
     <Modal
@@ -100,9 +155,7 @@ const ApprovalDialog: FC<IProps> = (props) => {
           key="approve"
           type="primary"
           loading={loading}
-          onClick={() => {
-            handleApprove('Welcome');
-          }}
+          onClick={handleConfirmApprove}
         >
           Approve
         </Button>,
@@ -112,9 +165,7 @@ const ApprovalDialog: FC<IProps> = (props) => {
           danger
           type="primary"
           loading={loading}
-          onClick={() => {
-            handleReject('Please rename');
-          }}
+          onClick={handleConfirmReject}
         >
           Reject
         </Button>,
@@ -134,7 +185,8 @@ const ApprovalDialog: FC<IProps> = (props) => {
         </Descriptions.Item>
         <Descriptions.Item label="Email">{data?.email}</Descriptions.Item>
         <Descriptions.Item label="Address" span={2}>
-          {data?.address}
+          {data?.locations[0].officeName} {data?.locations[0].address}{' '}
+          {data?.locations[0].city}
         </Descriptions.Item>
         <Descriptions.Item label="Phone Number">
           {data?.phoneNumber}
@@ -160,6 +212,20 @@ const ApprovalDialog: FC<IProps> = (props) => {
           {data?.summary}
         </Descriptions.Item>
       </Descriptions>
+      <Modal
+        title="Send message to company"
+        visible={isMessageBoxVisible}
+        onOk={handleConfirm}
+        onCancel={handleCancelApprove}
+      >
+        <Input.TextArea
+          value={message}
+          onChange={(event) => {
+            setMessage(event.target.value);
+          }}
+          placeholder="Type message send to company"
+        ></Input.TextArea>
+      </Modal>
     </Modal>
   );
 };

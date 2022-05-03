@@ -1,6 +1,6 @@
 import userApi from '@/api/userApi';
 import { ListResponse } from '@/models/common';
-import { User } from '@/models/user';
+import { User } from '@/types';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   fetchAllUsersFailed,
@@ -10,7 +10,7 @@ import {
 
 function* fetchAllUsers(action: any) {
   try {
-    const response: ListResponse<User> = yield call(userApi.getAllUsers);
+    const response: User = yield call(userApi.getAllUsers);
 
     yield put(fetchAllUsersSuccess(response));
   } catch (error: any) {

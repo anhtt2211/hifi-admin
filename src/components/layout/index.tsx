@@ -3,6 +3,7 @@ import { IRoute } from '@/models/route';
 import ProLayout from '@ant-design/pro-layout';
 import React, { useState } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
+import RightContent from './right-content';
 
 type IProps = {
   routes?: IRoute[];
@@ -45,6 +46,7 @@ export const AppLayout = ({ routes }: IProps) => {
             {dom}
           </NavLink>
         )}
+        rightContentRender={() => <RightContent />}
         menu={{
           request: async () => {
             await waitTime(1000);
@@ -53,20 +55,12 @@ export const AppLayout = ({ routes }: IProps) => {
         }}
       >
         <div>
-          {/* <Router>
-            {routes?.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                component={route.page}
-              />
-            ))}
-          </Router> */}
           <Switch>
             {routes?.map((route) => (
               <Route
                 key={route.path}
                 path={route.path}
+                exact={route.exact}
                 component={route.page}
               />
             ))}

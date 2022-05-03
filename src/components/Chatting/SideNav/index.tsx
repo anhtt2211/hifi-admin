@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Input, Typography } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import roomApi from '../../../api/roomApi';
-import socket from '@/utils/socket';
+import socket from '@/utils/messageSocket';
 import ChatUserItem from './ChatUserItem';
 import styles from './index.module.less';
 const { Title } = Typography;

@@ -6,7 +6,9 @@ import moment from 'moment';
 
 interface IProps {}
 
-const socket = io(import.meta.env.VITE_SERVER_URL);
+const socket = io(import.meta.env.VITE_MESSAGE_URL, {
+  path: '/message',
+});
 
 const Minichat: FC<IProps> = (props) => {
   const [messageList, setMessageList] = useState<Message[]>([]);
@@ -35,8 +37,8 @@ const Minichat: FC<IProps> = (props) => {
   }, [socket]);
 
   useEffect(() => {
-    socket.connect();
-    socket.emit('joinRoom', '624eb34b3e53c97e3ee113c5');
+    // socket.connect();
+    // socket.emit('joinRoom', '624eb34b3e53c97e3ee113c5');
   }, []);
 
   useEffect(() => {

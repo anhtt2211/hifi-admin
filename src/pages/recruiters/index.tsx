@@ -1,5 +1,6 @@
 import companyApi from '@/api/companyApi';
 import ApprovalDialog from '@/components/recruiters/ApprovalDialog';
+import { color } from '@/constants/badgeColors';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import {
   Breadcrumb,
@@ -14,6 +15,7 @@ import {
   Skeleton,
   Space,
   Table,
+  Tag,
   Tooltip,
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
@@ -66,12 +68,32 @@ const Recruiters = () => {
       align: 'center',
     },
     {
+      title: 'Industries',
+      dataIndex: 'industries',
+      align: 'center',
+      width: '15%',
+      render: (industries: any) => {
+        return (
+          <Row>
+            {industries.map((category: any, index: number) => (
+              <Tag
+                color={color[Math.floor(Math.random() * color.length)]}
+                key={index}
+              >
+                {category.name}
+              </Tag>
+            ))}
+          </Row>
+        );
+      },
+    },
+    {
       title: 'Description',
       dataIndex: 'summary',
       align: 'center',
       render: (summary: string) => {
         return (
-          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+          <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
             {summary}
           </Paragraph>
         );
