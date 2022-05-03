@@ -2,7 +2,7 @@ import { menuItems } from '@/constants/menuItems';
 import { IRoute } from '@/models/route';
 import ProLayout from '@ant-design/pro-layout';
 import React, { useState } from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 
 type IProps = {
   routes?: IRoute[];
@@ -52,11 +52,26 @@ export const AppLayout = ({ routes }: IProps) => {
           },
         }}
       >
-        <Routes>
-          {routes?.map((route) => (
-            <Route key={route.path} path={route.path} element={route.page} />
-          ))}
-        </Routes>
+        <div>
+          {/* <Router>
+            {routes?.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.page}
+              />
+            ))}
+          </Router> */}
+          <Switch>
+            {routes?.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.page}
+              />
+            ))}
+          </Switch>
+        </div>
       </ProLayout>
     </div>
   );

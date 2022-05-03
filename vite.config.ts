@@ -1,5 +1,4 @@
 import react from '@vitejs/plugin-react';
-import { getThemeVariables } from 'antd/dist/theme';
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import vitePluginImp from 'vite-plugin-imp';
@@ -28,7 +27,7 @@ export default defineConfig({
     },
     preprocessorOptions: {
       less: {
-        modifyVars: getThemeVariables({}),
+        modifyVars: {},
         javascriptEnabled: true,
       },
     },
