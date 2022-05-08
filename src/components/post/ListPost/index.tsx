@@ -1,4 +1,5 @@
 import postApi from '@/api/postApi';
+import { Post } from '@/models/post';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { Button, notification, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
@@ -10,15 +11,6 @@ import styles from './index.module.less';
 type Props = {
   data: any;
 };
-
-interface Post {
-  title: String;
-  company: String;
-  createdAt: String;
-  updatedAt: String;
-  category: String;
-  _id: String;
-}
 
 const ListPost = (props: Props) => {
   const columns: ColumnsType<Post> = [

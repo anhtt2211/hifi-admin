@@ -1,12 +1,11 @@
 import postApi from '@/api/postApi';
 import CheckboxMenu from '@/components/commons/CheckboxMenu';
-import HeroIcon from '@/components/commons/HeroIcon';
-import HeaderPost from '@/components/post/Header';
+import { HeaderPost } from '@/components/post/Header';
 import ListPost from '@/components/post/ListPost';
 import { Button, Card, Col, Input, Row, Select, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
+import { useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -16,7 +15,7 @@ type FilterOption = {
   value: String | Number;
   label: String;
 };
-const PostPage = (props: Props) => {
+export const PostPage = (props: Props) => {
   const [companyOption, setCompanyOption] = useState<Array<FilterOption>>([]);
   const [categoryOption, setCategoryOption] = useState<Array<FilterOption>>([]);
   const [selectedCompany, setSelectedCompany] = useState<
@@ -27,7 +26,7 @@ const PostPage = (props: Props) => {
   >([]);
   const [dataSource, setDataSource] = useState();
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const navigate = useNavigate();
+  const history = useHistory();
 
   //fetch data
   useEffect(() => {
@@ -53,9 +52,8 @@ const PostPage = (props: Props) => {
 
   const handleSearch = async (text: String) => {
     try {
-      navigate(`${text ? `?search=${text}` : ''}`);
+      history.push(`${text ? `?search=${text}` : ''}`);
       const posts = await postApi.getPosts(`?search=${text}`);
-      console.log(posts.data.data);
       setDataSource(posts.data.data);
     } catch (error) {
       console.log(error);
@@ -146,5 +144,3 @@ const PostPage = (props: Props) => {
     </div>
   );
 };
-
-export default PostPage;

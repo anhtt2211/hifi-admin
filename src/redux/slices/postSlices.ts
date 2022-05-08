@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
 
-interface PostState {
+type PostState = {
   loading?: boolean;
   list: Post[];
 }

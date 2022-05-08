@@ -4,7 +4,7 @@ import styles from './index.module.less';
 
 type Props = {};
 
-const HeaderPost = (props: Props) => {
+export const HeaderPost = (props: Props) => {
   return (
     <div>
       <Breadcrumb>
@@ -17,5 +17,3 @@ const HeaderPost = (props: Props) => {
     </div>
   );
 };
-
-export default HeaderPost;

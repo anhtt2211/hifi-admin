@@ -1,5 +1,6 @@
 import postApi from '@/api/postApi';
 import HeroIcon from '@/components/commons/HeroIcon';
+import { PostDetail, Skill } from '@/models/post';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -12,31 +13,11 @@ import {
   Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import styles from './index.module.less';
 
-interface Props {}
-type Salary = {
-  min: Number;
-  max: Number;
-  unit: String;
-  negotiable: Boolean;
-};
-type Skill = {
-  _id: String;
-  text: String;
-};
-type Post = {
-  _id: String;
-  title: String;
-  jobType: String;
-  jobCategories: Array<String>;
-  salary: Salary;
-  description: any;
-  skillTags: Array<Skill>;
-  locations: Array<String>;
-  verficationStatus: String;
-};
+type Props = {};
+
 type ItemProps = {
   iconName: string;
   content: string;
@@ -56,10 +37,10 @@ const DescriptionItem = (props: ItemProps) => {
   );
 };
 
-const PostDetails = (props: Props) => {
-  const [data, setData] = useState<Post>();
-  const navigate = useNavigate();
-  const { id } = useParams();
+export const PostDetails = (props: Props) => {
+  const [data, setData] = useState<PostDetail>();
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,7 +79,7 @@ const PostDetails = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-    navigate(-1);
+    history.goBack();
   };
 
   const handleRejectPost = async () => {
@@ -111,7 +92,7 @@ const PostDetails = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-    navigate(-1);
+    history.goBack();
   };
   return (
     <Card className={styles.container}>
@@ -189,5 +170,3 @@ const PostDetails = (props: Props) => {
     </Card>
   );
 };
-
-export default PostDetails;

@@ -6,12 +6,12 @@ type Option = {
   label: string;
   value: string | number;
 };
-interface Props {
+type Props = {
   options: Array<any>;
   onChange: Function;
   keyword?: string;
   defaultValue?: Array<string | number>;
-}
+};
 
 const CheckboxMenu = (props: Props) => {
   const [selectedItems, setSelectedItems] = useState<Array<string | number>>(
