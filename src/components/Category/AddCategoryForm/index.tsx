@@ -1,10 +1,9 @@
 import categorytApi from '@/api/categoryApi';
 import { deteteImage, uploadImage } from '@/firebase/services';
 import { Category } from '@/types';
-import { history } from '@/utils/history';
 import { Button, Card, Form, Input, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ImageFileUpload from '../ImageFileUpload';
 
 interface IProps {
@@ -17,6 +16,7 @@ const AddCategoryForm = (props: IProps) => {
   let { id } = useParams();
   const [category, setCategory] = useState<Category>();
   const [isEdit, setIsEdit] = useState<Boolean>(false);
+  const navigation = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -89,7 +89,7 @@ const AddCategoryForm = (props: IProps) => {
 
   const resetForm = () => {
     form.resetFields();
-    history.push('/categories');
+    navigation('/categories');
     setIsEdit(false);
     id = undefined;
   };

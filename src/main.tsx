@@ -1,24 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import './App.css';
-import 'antd/dist/antd.less';
-import App from './app/App';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
+import 'antd/dist/antd.less';
 import enUS from 'antd/lib/locale/en_US';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './App.css';
+import './index.css';
 import store from './redux/store';
 
 ReactDOM.render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <Router>
-      <ConfigProvider locale={enUS}>
+  <ConfigProvider locale={enUS}>
+    <BrowserRouter>
+      <Provider store={store}>
         <App />
-      </ConfigProvider>
-    </Router>
-  </Provider>,
+      </Provider>
+    </BrowserRouter>
+  </ConfigProvider>,
   // </React.StrictMode>,
   document.getElementById('root'),
 );
