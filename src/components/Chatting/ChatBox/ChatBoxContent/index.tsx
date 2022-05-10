@@ -13,37 +13,9 @@ import { Message, Room } from '@/types';
 interface IProps {}
 
 const ChatBoxContent: FC<IProps> = (props) => {
-  const dispatch = useAppDispatch();
   const chatting = useAppSelector($chatting);
-  const [receivedData, setReceivedData] = useState<Room>();
   const [messageList, setMessageList] = useState<Message[]>([]);
   const userId = localStorage.getItem('adminId');
-
-  useEffect(() => {
-    socket.on('sendDataServer', (data: Room) => {
-      let newRooms = [...chatting.rooms!];
-      const index = newRooms.findIndex((room) => room._id === data?._id);
-
-      if (index != -1) {
-        newRooms[index] = data;
-      } else {
-        newRooms.push(data);
-      }
-
-      dispatch(setRoomsState(newRooms));
-      setReceivedData(data);
-
-      // if (current?._id === data._id) {
-      //   dispatch(setCurrentRoomState(data));
-      // }
-    });
-  }, [socket]);
-
-  useEffect(() => {
-    if (receivedData && receivedData?._id === chatting.currentRoom?._id) {
-      dispatch(setCurrentRoomState(receivedData));
-    }
-  }, [receivedData]);
 
   useEffect(() => {
     if (chatting.currentRoom) {

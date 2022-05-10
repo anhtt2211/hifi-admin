@@ -7,10 +7,6 @@ const Title = () => {
   const avatarUrl = 'https://joeschmoe.io/api/v1/random';
   const authState = useAppSelector($auth);
 
-  useEffect(() => {
-    console.log(authState.auth);
-  }, [authState]);
-
   return (
     <div>
       <Row style={{ alignItems: 'center', justifyContent: 'center' }}>

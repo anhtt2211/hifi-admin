@@ -22,6 +22,7 @@ const SideNav: FC<IProps> = (props) => {
   const [roomId, setRoomId] = useState<string>();
   const dispatch = useAppDispatch();
   const chatting = useAppSelector($chatting);
+  const [receivedData, setReceivedData] = useState<Room>();
 
   const joinAllRoom = () => {
     socket.connect();
@@ -52,13 +53,41 @@ const SideNav: FC<IProps> = (props) => {
   useEffect(() => {
     if (chatting.rooms) {
       setRooms(chatting.rooms);
-      console.log(chatting);
     }
   }, [chatting]);
 
   useEffect(() => {
-    joinAllRoom();
+    if (rooms.length > 0) {
+      joinAllRoom();
+    }
   }, [rooms]);
+
+  useEffect(() => {
+    socket.on('sendDataServer', (data: Room) => {
+      setReceivedData(data);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    if (receivedData) {
+      let newRooms = [...chatting.rooms!];
+      const index = newRooms.findIndex(
+        (room) => room._id === receivedData?._id,
+      );
+
+      if (index != -1) {
+        newRooms[index] = receivedData;
+      } else {
+        newRooms.push(receivedData);
+      }
+
+      dispatch(setRoomsState(newRooms));
+
+      if (receivedData?._id === chatting.currentRoom?._id) {
+        dispatch(setCurrentRoomState(receivedData));
+      }
+    }
+  }, [receivedData]);
 
   return (
     <div>

@@ -1,11 +1,11 @@
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { $chatting } from '@/redux/slices/chattingSlices';
+import { Chatter, Message } from '@/types';
+import socket from '@/utils/messageSocket';
 import { Avatar, Col, Divider, Row, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import React, { FC } from 'react';
-import socket from '@/utils/messageSocket';
 import styles from './index.module.less';
-import { Chatter, Message, User } from '@/types';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { $chatting, setCurrentRoomState } from '@/redux/slices/chattingSlices';
 
 interface IProps {
   lastMessage: Message;
@@ -17,8 +17,6 @@ interface IProps {
 const ChatUserItem: FC<IProps> = (props) => {
   const { chatter, roomId, lastMessage, selected } = props;
   const userId = localStorage.getItem('adminId');
-  const chatting = useAppSelector($chatting);
-  const dispatch = useAppDispatch();
 
   const handleJoinRoom = () => {
     socket.emit('fetchRoom', roomId);
