@@ -1,4 +1,5 @@
 import { useAppSelector } from '@/redux/hooks';
+import { Room } from '@/types';
 import { MessageOutlined } from '@ant-design/icons';
 import { Button, Col, Row, Typography } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
@@ -15,10 +16,11 @@ const ChatBox: FC<IProps> = (props) => {
   const { setVisibleDrawer } = props;
   const chatting = useAppSelector((state) => state.chatting);
   const [room, setRoom] = useState<Room>();
+  const userId = localStorage.getItem('adminId');
 
   useEffect(() => {
-    if (chatting.room) {
-      setRoom(chatting.room);
+    if (chatting) {
+      setRoom(chatting.currentRoom);
     }
   }, [chatting]);
 
@@ -28,7 +30,9 @@ const ChatBox: FC<IProps> = (props) => {
         <>
           <ChatBoxHeader
             setVisibleDrawer={setVisibleDrawer}
-            chatter={room.chatters[0]}
+            chatter={room.chatters.find(
+              (chatter) => chatter.chatterId != userId,
+            )}
           ></ChatBoxHeader>
           <ChatBoxContent />
           <ChatBoxInput roomId={room._id}></ChatBoxInput>

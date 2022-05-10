@@ -1,10 +1,11 @@
+import { Chatter } from '@/types';
 import { MessageOutlined } from '@ant-design/icons';
 import { Avatar, Button, Col, Row, Typography } from 'antd';
 import React, { FC } from 'react';
 import styles from './index.module.less';
 
 interface IProps {
-  chatter?: User;
+  chatter?: Chatter;
   setVisibleDrawer: Function;
 }
 
@@ -25,12 +26,12 @@ const ChatBoxHeader: FC<IProps> = (props) => {
             className={styles.avatar}
           />
         </Col>
-        <Col md={6} sm={8} xs={8}>
+        <Col md={12} sm={12} xs={12}>
           <Typography.Title level={5} className={styles.title}>
             {chatter?.name}
           </Typography.Title>
         </Col>
-        <Col md={0} sm={2} xs={2} offset={10}>
+        <Col md={0} sm={2} xs={2} offset={6}>
           <Button
             shape="circle"
             type="primary"

@@ -14,12 +14,13 @@ const ChatBoxInput: FC<IProps> = (props) => {
   const { roomId } = props;
   const [value, setValue] = useState('');
   const [showPicker, setShowPicker] = useState(false);
+  const userId = localStorage.getItem('adminId');
 
   const handleSendMessage = (newMessage: string) => {
     socket.emit('sendDataClient', {
       room: roomId,
       message: {
-        userId: '6255931ff19b3638879e3303',
+        userId: userId,
         content: newMessage,
         createdAt: moment(),
       },

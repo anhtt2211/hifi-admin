@@ -7,11 +7,13 @@ import {
 import createSagaMiddleware from 'redux-saga';
 import userReducer from './slices/userSlices';
 import chattingReducer from './slices/chattingSlices';
+import authReducer from './slices/authSlices';
 import rootSaga from './rootSaga';
 
 const rootReducers = combineReducers({
   users: userReducer,
   chatting: chattingReducer,
+  auth: authReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

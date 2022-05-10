@@ -1,7 +1,8 @@
 import companyApi from '@/api/companyApi';
 import ApprovalDialog from '@/components/recruiters/ApprovalDialog';
 import { color } from '@/constants/badgeColors';
-import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import socket from '@/utils/messageSocket';
+import { DeleteOutlined, EyeOutlined, WechatOutlined } from '@ant-design/icons';
 import {
   Breadcrumb,
   Button,
@@ -22,7 +23,7 @@ import { ColumnsType } from 'antd/es/table';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { openNotification } from '../../utils/notification';
 
 const { Search } = Input;
@@ -59,6 +60,8 @@ const Recruiters = () => {
   const [loading, setLoading] = useState(false);
   const [visibleConfirm, setVisibleConfirm] = useState(false);
   const [loadingSke, setLoadingSke] = useState(true);
+  const adminId = localStorage.getItem('adminId');
+  const history = useHistory();
 
   const columns: ColumnsType<Company> = [
     {
@@ -103,7 +106,7 @@ const Recruiters = () => {
       title: '',
       dataIndex: '_id',
       align: 'center',
-      width: '10%',
+      width: '15%',
       render: (idRecruiter: string) => {
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -112,6 +115,15 @@ const Recruiters = () => {
                 icon={<EyeOutlined />}
                 onClick={() => {
                   handleViewDetail(idRecruiter);
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="Chat">
+              <Button
+                type="primary"
+                icon={<WechatOutlined />}
+                onClick={() => {
+                  handleChat(idRecruiter);
                 }}
               />
             </Tooltip>
@@ -222,6 +234,16 @@ const Recruiters = () => {
         </Card>
       </Col>
     );
+  };
+
+  const handleChat = (recruiterId: string) => {
+    socket.connect();
+    socket.emit('joinRoomByChatterId', {
+      admin: adminId,
+      company: recruiterId,
+    });
+
+    history.push('/chatting');
   };
 
   useEffect(() => {

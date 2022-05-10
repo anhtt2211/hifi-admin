@@ -4,9 +4,10 @@ import notificationSocket from '@/utils/notificationSocket';
 import { BellFilled, WechatOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Button, Col, Popover, Row, Tooltip } from 'antd';
 import React, { useEffect } from 'react';
-import Content from './content';
+import Content from './UserContent';
 import Notifications from './Notifications';
-import Title from './Title';
+import Title from './UserTitle';
+import { setUser } from '@/redux/slices/authSlices';
 
 const RightContent = () => {
   const avatarUrl = 'https://joeschmoe.io/api/v1/random';
@@ -24,7 +25,7 @@ const RightContent = () => {
 
   useEffect(() => {
     notificationSocket.on('receiveNotification', (user) => {
-      // dispatch(authActions.setUser(user));
+      dispatch(setUser(user));
     });
   }, [notificationSocket]);
 
@@ -45,7 +46,10 @@ const RightContent = () => {
           content={<Notifications />}
           trigger="hover"
         >
-          <Badge count={user?.notifications.length} size="small">
+          <Badge
+            count={user?.notifications.filter((noti) => !noti.isRead).length}
+            size="small"
+          >
             <Button type="link" icon={<BellFilled />} />
           </Badge>
         </Popover>

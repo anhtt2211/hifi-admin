@@ -8,6 +8,11 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(function (config) {
+  var accessToken = localStorage.getItem('accessToken');
+  if (accessToken) {
+    config.headers!.Authorization = 'Bearer ' + accessToken;
+  }
+
   return config;
 });
 

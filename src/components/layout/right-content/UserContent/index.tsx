@@ -1,14 +1,19 @@
+import { useAppDispatch } from '@/redux/hooks';
+import { logoutUser } from '@/redux/slices/authSlices';
+import { EditOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import React from 'react';
-import Icon, { EditOutlined, LogoutOutlined } from '@ant-design/icons';
-import { useAppDispatch } from '@/redux/hooks';
 import { useHistory } from 'react-router';
 
 const Content = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    localStorage.removeItem('accessToken');
+    history.push('login');
+  };
 
   const editProfile = () => {
     history.push('/profile');

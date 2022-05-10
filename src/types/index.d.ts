@@ -18,7 +18,14 @@ type User = {
 type Room = {
   _id: string;
   messages: Message[];
-  chatters: User[];
+  chatters: Chatter[];
+};
+
+type Chatter = {
+  chatterId: string;
+  name: string;
+  avatar: string;
+  type: string;
 };
 
 type Company = {
@@ -41,5 +48,12 @@ export type Notification = {
   message: string;
   createdAt: Date;
   redirectUrl: string;
+  isRead: boolean;
   _id: string;
+};
+
+type Admin = {
+  _id: string;
+  name: string;
+  username: string;
 };

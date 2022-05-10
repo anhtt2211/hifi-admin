@@ -54,18 +54,16 @@ export const AppLayout = ({ routes }: IProps) => {
           },
         }}
       >
-        <div>
-          <Switch>
-            {routes?.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                exact={route.exact}
-                component={route.page}
-              />
-            ))}
-          </Switch>
-        </div>
+        <Switch>
+          {routes?.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              exact={route.exact}
+              component={route.page}
+            />
+          ))}
+        </Switch>
       </ProLayout>
     </div>
   );

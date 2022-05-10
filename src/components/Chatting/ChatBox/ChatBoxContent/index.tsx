@@ -1,27 +1,53 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setRoomsState } from '@/redux/slices/chattingSlices';
+import {
+  $chatting,
+  setCurrentRoomState,
+  setRoomsState,
+} from '@/redux/slices/chattingSlices';
 import React, { FC, useEffect, useState } from 'react';
 import socket from '@/utils/messageSocket';
 import ChatItem from './ChatItem';
 import styles from './index.module.less';
+import { Message, Room } from '@/types';
 
 interface IProps {}
 
 const ChatBoxContent: FC<IProps> = (props) => {
   const dispatch = useAppDispatch();
-  const chatting = useAppSelector((state) => state.chatting);
+  const chatting = useAppSelector($chatting);
+  const [receivedData, setReceivedData] = useState<Room>();
   const [messageList, setMessageList] = useState<Message[]>([]);
-  const userId = '6255931ff19b3638879e3303';
+  const userId = localStorage.getItem('adminId');
 
   useEffect(() => {
     socket.on('sendDataServer', (data: Room) => {
-      dispatch(setRoomsState(data));
+      let newRooms = [...chatting.rooms!];
+      const index = newRooms.findIndex((room) => room._id === data?._id);
+
+      if (index != -1) {
+        newRooms[index] = data;
+      } else {
+        newRooms.push(data);
+      }
+
+      dispatch(setRoomsState(newRooms));
+      setReceivedData(data);
+
+      // if (current?._id === data._id) {
+      //   dispatch(setCurrentRoomState(data));
+      // }
     });
   }, [socket]);
 
   useEffect(() => {
-    if (chatting.room) {
-      setMessageList(chatting.room?.messages);
+    if (receivedData && receivedData?._id === chatting.currentRoom?._id) {
+      dispatch(setCurrentRoomState(receivedData));
+    }
+  }, [receivedData]);
+
+  useEffect(() => {
+    if (chatting.currentRoom) {
+      setMessageList(chatting.currentRoom?.messages);
     }
   }, [chatting]);
 

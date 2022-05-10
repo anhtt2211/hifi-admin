@@ -3,6 +3,7 @@ import { addResponseMessage, addUserMessage, Widget } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
 import io from 'socket.io-client';
 import moment from 'moment';
+import { Message, Room } from '@/types';
 
 interface IProps {}
 
@@ -53,13 +54,13 @@ const Minichat: FC<IProps> = (props) => {
 
   return (
     <div>
-      {/* <Widget
+      <Widget
         emojis
         showTimeStamp={false}
         showBadge
         handleNewUserMessage={handleNewUserMessage}
         subtitle="Connect with admin"
-      /> */}
+      />
     </div>
   );
 };

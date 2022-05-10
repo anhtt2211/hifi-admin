@@ -3,21 +3,25 @@ import moment from 'moment';
 import React, { FC } from 'react';
 import socket from '@/utils/messageSocket';
 import styles from './index.module.less';
+import { Chatter, Message, User } from '@/types';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { $chatting, setCurrentRoomState } from '@/redux/slices/chattingSlices';
 
 interface IProps {
   lastMessage: Message;
   roomId: string;
-  user: User;
+  chatter?: Chatter;
   selected: boolean;
 }
 
 const ChatUserItem: FC<IProps> = (props) => {
-  const { user, roomId, lastMessage, selected } = props;
-  const userId = '6255931ff19b3638879e3303';
+  const { chatter, roomId, lastMessage, selected } = props;
+  const userId = localStorage.getItem('adminId');
+  const chatting = useAppSelector($chatting);
+  const dispatch = useAppDispatch();
 
   const handleJoinRoom = () => {
-    socket.connect();
-    socket.emit('joinRoom', roomId);
+    socket.emit('fetchRoom', roomId);
   };
 
   return (
@@ -34,29 +38,38 @@ const ChatUserItem: FC<IProps> = (props) => {
           />
         </Col>
         <Col span={19}>
-          <Typography.Title level={5} className={styles.title}>
-            {user.name}
-          </Typography.Title>
+          <Tooltip title={chatter?.name}>
+            <Typography.Title
+              level={5}
+              className={styles.title}
+              ellipsis={true}
+            >
+              {chatter?.name}
+            </Typography.Title>
+          </Tooltip>
+
           <Row>
             <Typography.Text ellipsis={true} className={styles.text}>
-              {userId === lastMessage.userId ? 'You: ' : ''}
-              {lastMessage.content}
+              {userId === lastMessage?.userId ? 'You: ' : ''}
+              {lastMessage?.content}
             </Typography.Text>
           </Row>
           <Row>
             <Tooltip
-              title={moment(lastMessage.createdAt).format(
+              title={moment(lastMessage?.createdAt).format(
                 'YYYY-MM-DD HH:mm:ss',
               )}
             >
-              <Typography.Text className={styles.time}>
-                {moment(lastMessage.createdAt).fromNow()}
-              </Typography.Text>
+              {lastMessage && (
+                <Typography.Text className={styles.time}>
+                  {moment(lastMessage?.createdAt).fromNow()}
+                </Typography.Text>
+              )}
             </Tooltip>
           </Row>
         </Col>
       </Row>
-      <Divider></Divider>
+      <Divider style={{ margin: '12px 0' }}></Divider>
     </>
   );
 };
