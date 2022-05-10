@@ -8,22 +8,27 @@ import { UserPage } from '@/pages/users/index';
 export const adminRoutes: IRoute[] = [
   {
     path: '/',
+    exact: true,
     page: <Welcome />,
   },
   {
     path: '/users',
+    exact: true,
     page: <UserPage />,
   },
   {
     path: '/categories',
+    exact: true,
     page: <Categories />,
   },
   {
     path: '/categories/edit/:id',
+    exact: true,
     page: <Categories />,
   },
   {
     path: '/categories/:id',
+    exact: true,
     page: <CategoryDetails />,
   },
   {

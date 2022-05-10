@@ -8,12 +8,12 @@ import {
   fetchAllUsersSuccess,
 } from '../slices/userSlices';
 
-function* fetchAllUsers(action) {
+function* fetchAllUsers(action: any) {
   try {
     const response: ListResponse<User> = yield call(userApi.getAllUsers);
 
     yield put(fetchAllUsersSuccess(response));
-  } catch (error) {
+  } catch (error: any) {
     yield put(fetchAllUsersFailed(error.message));
   }
 }

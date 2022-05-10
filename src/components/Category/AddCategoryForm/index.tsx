@@ -20,11 +20,11 @@ const AddCategoryForm = (props: IProps) => {
 
   useEffect(() => {
     if (id) {
-      const tmp = props.data.find((e) => e._id == id);
-      setCategory(tmp);
+      const category = props.data.find((e) => e._id == id);
+      setCategory(category);
 
       form.setFieldsValue({
-        name: tmp?.name,
+        name: category?.name,
       });
       setIsEdit(true);
     }
@@ -58,8 +58,10 @@ const AddCategoryForm = (props: IProps) => {
           });
         }
         const updatedCategory = res.data;
-        const tmp = props.data.map((e) => (e._id == id ? updatedCategory : e));
-        props.setData(tmp);
+        const updatedCategories = props.data.map((e) =>
+          e._id == id ? updatedCategory : e,
+        );
+        props.setData(updatedCategories);
         deteteImage(category?.imageUrl);
         notification.success({
           message: 'Updated category successfully!',
@@ -69,8 +71,8 @@ const AddCategoryForm = (props: IProps) => {
           name: name,
           imageUrl: url,
         });
-        const tmp = [...props.data, data];
-        props.setData(tmp);
+        const categories = [...props.data, data];
+        props.setData(categories);
         notification.success({
           message: 'Created category successfully!',
         });
