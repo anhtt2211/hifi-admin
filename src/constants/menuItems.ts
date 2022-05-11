@@ -1,17 +1,21 @@
-import { Recruiters } from '@/pages/recruiters';
-
-export const menuItems = [
-  {
-    path: '/',
-    name: 'Welcome',
-  },
-  {
-    path: '/users',
-    name: 'Users',
-  },
-  {
-    name: 'Recruiters',
-    path: '/recruiters',
-    exact: true,
-  },
-];
+export const menuItems = {
+  routes: [
+    {
+      path: '/',
+      name: 'Welcome',
+    },
+    {
+      path: '/users',
+      name: 'Users',
+    },
+    {
+      path: '/categories',
+      name: 'Category',
+    },
+    {
+      name: 'Recruiters',
+      path: '/recruiters',
+      exact: true,
+    },
+  ],
+};
