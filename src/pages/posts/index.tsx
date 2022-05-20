@@ -2,10 +2,11 @@ import postApi from '@/api/postApi';
 import CheckboxMenu from '@/components/commons/CheckboxMenu';
 import { HeaderPost } from '@/components/post/Header';
 import ListPost from '@/components/post/ListPost';
+import { Post } from '@/models/post';
 import { Button, Card, Col, Input, Row, Select, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
-import { useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -15,46 +16,32 @@ type FilterOption = {
   value: String | Number;
   label: String;
 };
+
+export type DataSource = {
+  message: string;
+  data: Post[];
+  totalItems: number;
+  totalPages: number;
+};
 export const PostPage = (props: Props) => {
   const [companyOption, setCompanyOption] = useState<Array<FilterOption>>([]);
   const [categoryOption, setCategoryOption] = useState<Array<FilterOption>>([]);
+  const [query, setQuery] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<
     Array<String | Number>
   >([]);
   const [selectedCategory, setSelectedCategory] = useState<
     Array<String | Number>
   >([]);
-  const [dataSource, setDataSource] = useState();
+  const [dataSource, setDataSource] = useState<DataSource>();
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const history = useHistory();
-
-  //fetch data
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await postApi.getFilterOption();
-      const companies = result.data.data.companyOption.map((e: any) => {
-        return {
-          value: e._id,
-          label: e.name,
-        };
-      });
-      setCompanyOption(companies);
-      const categories = result.data.data.categoryOption.map((e: any) => {
-        return {
-          value: e._id,
-          label: e.name,
-        };
-      });
-      setCategoryOption(categories);
-    };
-    fetchData();
-  }, []);
+  const navigate = useNavigate();
 
   const handleSearch = async (text: String) => {
     try {
-      history.push(`${text ? `?search=${text}` : ''}`);
+      navigate(`${text ? `?search=${text}` : ''}`);
       const posts = await postApi.getPosts(`?search=${text}`);
-      setDataSource(posts.data.data);
+      setDataSource(posts.data);
     } catch (error) {
       console.log(error);
     }
@@ -62,29 +49,72 @@ export const PostPage = (props: Props) => {
 
   const handleFilter = async () => {
     try {
-      let query = '';
+      let queryTmp = '';
       if (selectedCompany.length > 0) {
-        query += `?company=${selectedCompany.join(',')}`;
+        queryTmp += `?company=${selectedCompany.join(',')}`;
       }
       if (selectedCategory.length > 0) {
-        query += `${
-          query.length > 0 ? '&' : '?'
+        queryTmp += `${
+          queryTmp.length > 0 ? '&' : '?'
         }category=${selectedCategory.join(',')}`;
       }
       if (selectedStatus == 'approved') {
-        query =
-          query + `${query.length > 0 ? '&' : '?'}verficationStatus=fulfilled`;
+        queryTmp =
+          queryTmp +
+          `${queryTmp.length > 0 ? '&' : '?'}verficationStatus=fulfilled`;
       } else if (selectedStatus != 'all') {
-        query =
-          query +
-          `${query.length > 0 ? '&' : '?'}verficationStatus=${selectedStatus}`;
+        queryTmp =
+          queryTmp +
+          `${
+            queryTmp.length > 0 ? '&' : '?'
+          }verficationStatus=${selectedStatus}`;
       }
-      const posts = await postApi.getPosts(query);
-      setDataSource(posts.data.data);
+      setQuery(queryTmp);
+      const res = await postApi.getPosts(queryTmp);
+      setDataSource(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  //fetch data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await postApi.getPosts();
+        if (res.data.data) {
+          setDataSource(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const getFilterOption = async () => {
+      try {
+        const result = await postApi.getFilterOption();
+        const companies = result.data.data.companyOption.map((e: any) => {
+          return {
+            value: e._id,
+            label: e.name,
+          };
+        });
+        setCompanyOption(companies);
+        const categories = result.data.data.categoryOption.map((e: any) => {
+          return {
+            value: e._id,
+            label: e.name,
+          };
+        });
+        setCategoryOption(categories);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+    getFilterOption();
+  }, []);
+
   return (
     <div>
       <Row>
@@ -137,7 +167,7 @@ export const PostPage = (props: Props) => {
             </div>
           </Col>
           <Col span={24}>
-            <ListPost data={dataSource} />
+            <ListPost data={dataSource} query={query} />
           </Col>
         </Row>
       </Card>

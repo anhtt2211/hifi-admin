@@ -1,33 +1,36 @@
-import { type } from "os";
+type Post = {
+  _id: string;
+  title: string;
+  jobType: string;
+  jobCategory: {
+    _id: string;
+    name: string;
+    category: {
+      _id: string;
+      name: string;
+    };
+  };
+  salary: Salary;
+  company: {
+    _id: string;
+    name: string;
+  };
+  description: any;
+  skillTags: Array<Skill>;
+  locations: any;
+  verficationStatus: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
- type Post =  {
-    title: String;
-    company: String;
-    createdAt: String;
-    updatedAt: String;
-    category: String;
-    _id: String;
-}
 type Salary = {
-    min: Number;
-    max: Number;
-    unit: String;
-    negotiable: Boolean;
-  };
-
- type PostDetail = {
-    _id: String;
-    title: String;
-    jobType: String;
-    jobCategories: Array<String>;
-    salary: Salary;
-    description: any;
-    skillTags: Array<Skill>;
-    locations: Array<String>;
-    verficationStatus: String;
-  };
-  type Skill = {
-    _id: String;
-    text: String;
-  };
-  export type {Post, PostDetail, Salary, Skill}
+  min: Number;
+  max: Number;
+  unit: string;
+  negotiable: Boolean;
+};
+type Skill = {
+  _id: string;
+  text: string;
+};
+export type { Post, Salary, Skill };

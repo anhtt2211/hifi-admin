@@ -1,19 +1,33 @@
 import postApi from '@/api/postApi';
 import { Post } from '@/models/post';
+import { DataSource } from '@/pages/posts';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { StringableActionCreator } from '@redux-saga/types';
 import { Button, notification, Table, Tag, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import moment from 'moment';
+import { totalmem } from 'os';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 type Props = {
-  data: any;
+  data?: DataSource;
+  query: string;
+};
+
+type PostTable = {
+  title: string;
+  company: string;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  _id: string;
 };
 
 const ListPost = (props: Props) => {
-  const columns: ColumnsType<Post> = [
+  const columns: ColumnsType<PostTable> = [
     {
       title: 'Title',
       dataIndex: 'title',
@@ -89,62 +103,12 @@ const ListPost = (props: Props) => {
       },
     },
   ];
-  const [data, setData] = useState<Array<Post>>();
+
+  const [dataSource, setDataSource] = useState<PostTable[]>([]);
+  const [totalSize, setTotalSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await postApi.getPosts(location.search);
-        if (res.data.data) {
-          const posts = res.data.data.map((e: any) => {
-            return {
-              title: e.title,
-              company: e.company?.name,
-              createdAt: moment(e.createdAt).format('DD/MM/YYYY HH:mm:ss'),
-              updatedAt: moment(e.updatedAt).format('DD/MM/YYYY HH:mm:ss'),
-              category:
-                e.jobCategories.length > 0
-                  ? e.jobCategories[0].category.name
-                  : '',
-              _id: e._id,
-              status:
-                e.verficationStatus == 'fulfilled'
-                  ? 'Approved'
-                  : e.verficationStatus.charAt(0).toUpperCase() +
-                    e.verficationStatus.slice(1),
-            };
-          });
-          setData(posts);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (props.data) {
-      const tmp = props.data.map((e: any) => {
-        return {
-          title: e.title,
-          company: e.company?.name,
-          createdAt: moment(e.createdAt).format('DD/MM/YYYY HH:mm:ss'),
-          updatedAt: moment(e.updatedAt).format('DD/MM/YYYY HH:mm:ss'),
-          category:
-            e.jobCategories.length > 0 ? e.jobCategories[0].category.name : '',
-          _id: e._id,
-          status:
-            e.verficationStatus == 'fulfilled'
-              ? 'Approved'
-              : e.verficationStatus.charAt(0).toUpperCase() +
-                e.verficationStatus.slice(1),
-        };
-      });
-      setData(tmp);
-    }
-  }, [props.data]);
+  const navigate = useNavigate();
 
   const handleDeletePost = async (id: any) => {
     try {
@@ -155,9 +119,58 @@ const ListPost = (props: Props) => {
     }
   };
 
+  const handleChangePage = async (currPage: number) => {
+    try {
+      let tmp = props.query;
+      tmp += props.query.length > 0 ? `&page=${currPage}` : `?page=${currPage}`;
+      const res = await postApi.getPosts(tmp);
+      if (res.data.data) {
+        const tmp = convertToTableData(res.data.data);
+        setDataSource(tmp);
+        setTotalSize(res.data.totalItems);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const convertToTableData = (posts: Post[]) => {
+    const tmp = posts.map((e: Post) => {
+      return {
+        title: e.title,
+        company: e.company?.name ?? '',
+        createdAt: moment(e.createdAt).format('DD/MM/YYYY HH:mm:ss'),
+        updatedAt: moment(e.updatedAt).format('DD/MM/YYYY HH:mm:ss'),
+        category: e.jobCategory?.category?.name ?? '',
+        _id: e._id,
+        status:
+          e.verficationStatus == 'fulfilled'
+            ? 'Approved'
+            : e.verficationStatus.charAt(0).toUpperCase() +
+              e.verficationStatus.slice(1),
+      };
+    });
+    return tmp;
+  };
+
+  useEffect(() => {
+    if (props.data) {
+      setTotalSize(props.data.totalItems);
+
+      const tmp = convertToTableData(props.data.data);
+      setDataSource(tmp);
+    }
+  }, [props.data]);
+
   return (
     <div>
-      <Table columns={columns} dataSource={data} />
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{
+          total: totalSize,
+          onChange: (page: number) => handleChangePage(page),
+        }}
+      />
     </div>
   );
 };

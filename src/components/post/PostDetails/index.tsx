@@ -1,6 +1,5 @@
 import postApi from '@/api/postApi';
-import HeroIcon from '@/components/commons/HeroIcon';
-import { PostDetail, Skill } from '@/models/post';
+import { Post, Skill } from '@/models/post';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -13,33 +12,15 @@ import {
   Tooltip,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import DescriptionItem from '../DescriptionItem';
 import styles from './index.module.less';
 
 type Props = {};
 
-type ItemProps = {
-  iconName: string;
-  content: string;
-  outline?: boolean;
-};
-
-const DescriptionItem = (props: ItemProps) => {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <HeroIcon
-        icon={props.iconName}
-        outline={props.outline ? props.outline : false}
-        style={{ marginRight: '20px' }}
-      />
-      {props.content}
-    </div>
-  );
-};
-
 export const PostDetails = (props: Props) => {
-  const [data, setData] = useState<PostDetail>();
-  const history = useHistory();
+  const [data, setData] = useState<Post>();
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -47,19 +28,7 @@ export const PostDetails = (props: Props) => {
       try {
         const res = await postApi.getById(id);
         if (res.data.data) {
-          const tmp = res.data.data;
-          const post = {
-            _id: tmp._id,
-            title: tmp.title,
-            jobType: tmp.jobType,
-            jobCategories: tmp.jobCategories,
-            salary: tmp.salary,
-            description: tmp.description,
-            skillTags: tmp.skillTags,
-            locations: tmp.locations,
-            verficationStatus: tmp.verficationStatus,
-          };
-          setData(post);
+          setData(res.data.data);
         }
       } catch (error) {
         console.log(error);
@@ -79,7 +48,7 @@ export const PostDetails = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-    history.goBack();
+    navigate(-1);
   };
 
   const handleRejectPost = async () => {
@@ -92,7 +61,7 @@ export const PostDetails = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-    history.goBack();
+    navigate(-1);
   };
   return (
     <Card className={styles.container}>
