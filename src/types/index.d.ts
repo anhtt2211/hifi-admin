@@ -68,4 +68,13 @@ type Subcategory = {
   name: string;
 };
 
-export type { Category, Subcategory, Admin, Company, Room, User, Message  };
+export type {
+  Category,
+  Subcategory,
+  Admin,
+  Company,
+  Room,
+  User,
+  Message,
+  Chatter,
+};

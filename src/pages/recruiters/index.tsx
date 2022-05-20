@@ -61,7 +61,7 @@ const Recruiters = () => {
   const [visibleConfirm, setVisibleConfirm] = useState(false);
   const [loadingSke, setLoadingSke] = useState(true);
   const adminId = localStorage.getItem('adminId');
-  const naviate = useNavigate();
+  const navigate = useNavigate();
 
   const columns: ColumnsType<Company> = [
     {
@@ -245,7 +245,7 @@ const Recruiters = () => {
       company: recruiterId,
     });
 
-    naviate('/chatting');
+    navigate('/chatting');
   };
 
   useEffect(() => {

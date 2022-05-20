@@ -19,7 +19,7 @@ interface IProps {
 export const ApprovalDiglog: FC<IProps> = (props) => {
   const { visible, handleCancel, data, canApprove, loading, setLoading } =
     props;
-  const userId = '6255931ff19b3638879e3303';
+  const userId = localStorage.getItem('adminId');
 
   const [isMessageBoxVisible, setIsMessageBoxVisible] = useState(false);
   const [type, setType] = useState('approve');
