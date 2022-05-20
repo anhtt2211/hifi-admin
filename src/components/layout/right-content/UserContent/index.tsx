@@ -3,20 +3,20 @@ import { logoutUser } from '@/redux/slices/authSlices';
 import { EditOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Content = () => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutUser());
     localStorage.removeItem('accessToken');
-    history.push('login');
+    navigate('login');
   };
 
   const editProfile = () => {
-    history.push('/profile');
+    navigate('/profile');
   };
 
   const contents = [

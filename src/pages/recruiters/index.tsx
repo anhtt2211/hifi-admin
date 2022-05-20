@@ -1,5 +1,5 @@
 import companyApi from '@/api/companyApi';
-import ApprovalDialog from '@/components/recruiters/ApprovalDialog';
+import { ApprovalDiglog } from '@/components/recruiters/ApprovalDialog';
 import { color } from '@/constants/badgeColors';
 import socket from '@/utils/messageSocket';
 import { DeleteOutlined, EyeOutlined, WechatOutlined } from '@ant-design/icons';
@@ -23,7 +23,7 @@ import { ColumnsType } from 'antd/es/table';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../utils/notification';
 
 const { Search } = Input;
@@ -61,7 +61,7 @@ const Recruiters = () => {
   const [visibleConfirm, setVisibleConfirm] = useState(false);
   const [loadingSke, setLoadingSke] = useState(true);
   const adminId = localStorage.getItem('adminId');
-  const history = useHistory();
+  const naviate = useNavigate();
 
   const columns: ColumnsType<Company> = [
     {
@@ -195,7 +195,9 @@ const Recruiters = () => {
 
   const handleViewDetail = (idRecruiter: string) => {
     setVisible(true);
-    var company = dataSource?.find((company) => company?._id == idRecruiter);
+    var company = dataSource?.find(
+      (company: Company) => company?._id == idRecruiter,
+    );
     setSelectedCompany(company);
     if (company?.accountStatus != 'pending') {
       setCanApprove(false);
@@ -243,7 +245,7 @@ const Recruiters = () => {
       company: recruiterId,
     });
 
-    history.push('/chatting');
+    naviate('/chatting');
   };
 
   useEffect(() => {
@@ -303,14 +305,14 @@ const Recruiters = () => {
           {!isMobile && renderStatusRadio()}
         </Row>
       </Card>
-      <ApprovalDialog
+      <ApprovalDiglog
         setLoading={setLoading}
         loading={loading}
         canApprove={canApprove}
         data={selectedCompany}
         visible={visible}
         handleCancel={handleClose}
-      ></ApprovalDialog>
+      />
     </>
   );
 };

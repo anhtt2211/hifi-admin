@@ -3,7 +3,7 @@ import moment from 'moment';
 import styles from './index.module.less';
 import React, { FC } from 'react';
 import { Notification } from '@/types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@/redux/hooks';
 
 interface IProp {
@@ -12,8 +12,6 @@ interface IProp {
 
 const NotificationItem: FC<IProp> = (props) => {
   const { notification } = props;
-  const dispatch = useAppDispatch();
-  let history = useHistory();
 
   const handleClickNotification = () => {
     window.location.href = notification.redirectUrl;

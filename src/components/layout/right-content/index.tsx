@@ -7,21 +7,22 @@ import React, { useEffect } from 'react';
 import Content from './UserContent';
 import Notifications from './Notifications';
 import Title from './UserTitle';
-import { setUser } from '@/redux/slices/authSlices';
+import { $auth, setUser } from '@/redux/slices/authSlices';
+import { Notification } from '@/types';
 
 const RightContent = () => {
   const avatarUrl = 'https://joeschmoe.io/api/v1/random';
-  const user = useAppSelector($users);
+  const auth = useAppSelector($auth);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user) {
+    if (auth) {
       notificationSocket.connect();
       notificationSocket.emit('joinNotification', {
-        receiver: user?._id,
+        receiver: auth?.auth?.data?._id,
       });
     }
-  }, [user]);
+  }, [auth]);
 
   useEffect(() => {
     notificationSocket.on('receiveNotification', (user) => {
@@ -47,7 +48,11 @@ const RightContent = () => {
           trigger="hover"
         >
           <Badge
-            count={user?.notifications.filter((noti) => !noti.isRead).length}
+            count={
+              auth?.auth?.data?.notifications.filter(
+                (noti: Notification) => !noti.isRead,
+              ).length
+            }
             size="small"
           >
             <Button type="link" icon={<BellFilled />} />
@@ -64,7 +69,11 @@ const RightContent = () => {
           <Avatar
             style={{ cursor: 'pointer' }}
             shape="square"
-            src={user?.photoUrl ? user.photoUrl : avatarUrl}
+            src={
+              auth?.auth?.data?.photoUrl
+                ? auth?.auth?.data?.photoUrl
+                : avatarUrl
+            }
           />
         </Popover>
       </Col>

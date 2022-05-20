@@ -1,7 +1,7 @@
 import { LockTwoTone, UserOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Col, Form, Input, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.svg';
 import styles from './index.module.less';
@@ -21,7 +21,7 @@ interface IFormData {
 }
 
 const Login = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authState = useAppSelector($auth);
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ const Login = () => {
     if (authState.auth) {
       localStorage.setItem('accessToken', authState.auth.accessToken);
       localStorage.setItem('adminId', authState.auth.data._id);
-      history.push('/');
+      navigate('/');
     }
   }, [authState]);
 

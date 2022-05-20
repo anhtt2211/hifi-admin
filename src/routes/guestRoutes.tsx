@@ -6,11 +6,11 @@ export const guestRoutes: IRoute[] = [
   {
     path: '/login',
     exact: true,
-    page: Login,
+    page: <Login />,
   },
   {
     path: '*',
     exact: true,
-    page: UnAuthorzied,
+    page: <UnAuthorzied />,
   },
 ];

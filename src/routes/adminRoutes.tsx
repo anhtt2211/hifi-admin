@@ -1,8 +1,10 @@
 import { IRoute } from '@/models/route';
-import { Welcome } from '@/pages';
+import Welcome from '@/pages';
 import Categories from '@/pages/categories';
 import CategoryDetails from '@/pages/categories/subcategories';
-import { Recruiters } from '@/pages/recruiters';
+import Chatting from '@/pages/Chatting';
+import NotFound from '@/pages/not-found';
+import Recruiters from '@/pages/recruiters';
 import { UserPage } from '@/pages/users/index';
 
 export const adminRoutes: IRoute[] = [
@@ -39,11 +41,11 @@ export const adminRoutes: IRoute[] = [
   {
     path: '/chatting',
     exact: true,
-    page: Chatting,
+    page: <Chatting />,
   },
   {
     path: '*',
     exact: true,
-    page: NotFound,
+    page: <NotFound />,
   },
 ];
