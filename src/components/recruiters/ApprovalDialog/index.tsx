@@ -16,7 +16,7 @@ interface IProps {
   setLoading: (loading: boolean) => void;
 }
 
-const ApprovalDialog: FC<IProps> = (props) => {
+export const ApprovalDiglog: FC<IProps> = (props) => {
   const { visible, handleCancel, data, canApprove, loading, setLoading } =
     props;
   const userId = '6255931ff19b3638879e3303';
@@ -229,5 +229,3 @@ const ApprovalDialog: FC<IProps> = (props) => {
     </Modal>
   );
 };
-
-export default ApprovalDialog;

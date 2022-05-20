@@ -1,16 +1,16 @@
 import { ListParams, ListResponse } from '@/models/common';
-import { User } from '@/types';
+import { User } from '@/models/user';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
 interface UserState {
   loading?: boolean;
-  user: User | undefined;
+  list: User[];
 }
 
 const initialState: UserState = {
   loading: false,
-  user: undefined,
+  list: [],
 };
 
 export const userSlice = createSlice({
@@ -20,9 +20,12 @@ export const userSlice = createSlice({
     fetchAllUsersRequest: (state, action: PayloadAction<ListParams>) => {
       state.loading = true;
     },
-    fetchAllUsersSuccess: (state, action: PayloadAction<User>) => {
+    fetchAllUsersSuccess: (
+      state,
+      action: PayloadAction<ListResponse<User>>,
+    ) => {
       state.loading = false;
-      state.user = action.payload;
+      state.list = action.payload.data;
     },
     fetchAllUsersFailed: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -36,6 +39,6 @@ export const {
   fetchAllUsersFailed,
 } = userSlice.actions;
 
-export const $users = (state: RootState) => state.users.user;
+export const $users = (state: RootState) => state.users;
 
 export default userSlice.reducer;

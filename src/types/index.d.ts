@@ -57,3 +57,15 @@ type Admin = {
   name: string;
   username: string;
 };
+type Category = {
+  _id: string;
+  name: string;
+  imageUrl: any;
+  subcategories: Subcategory[];
+};
+type Subcategory = {
+  _id: string;
+  name: string;
+};
+
+export type { Category, Subcategory, Admin, Company, Room, User, Message  };

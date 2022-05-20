@@ -1,24 +1,10 @@
 import { menuItems } from '@/constants/menuItems';
-import { IRoute } from '@/models/route';
 import ProLayout from '@ant-design/pro-layout';
-import React, { useState } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
-import RightContent from './right-content';
+import { useState } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
-type IProps = {
-  routes?: IRoute[];
-};
-
-export const AppLayout = ({ routes }: IProps) => {
+export const AppLayout = () => {
   const [pathname, setPathname] = useState(window.location.pathname);
-
-  const waitTime = (time: number = 100) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, time);
-    });
-  };
 
   return (
     <div
@@ -27,7 +13,7 @@ export const AppLayout = ({ routes }: IProps) => {
       }}
     >
       <ProLayout
-        title="Hifi"
+        title="Hifi admin"
         fixSiderbar
         fixedHeader
         layout="mix"
@@ -36,7 +22,15 @@ export const AppLayout = ({ routes }: IProps) => {
         location={{
           pathname,
         }}
-        menuItemRender={(item, dom) => (
+        primaryColor="#6D5CE8"
+        route={menuItems}
+        headerTitleRender={(logo: any, title: any) => (
+          <Link to="/" onClick={() => setPathname('/')}>
+            {logo}
+            {title}
+          </Link>
+        )}
+        menuItemRender={(item: any, dom: any) => (
           <NavLink
             to={`${item.path}`}
             onClick={() => {
@@ -46,24 +40,8 @@ export const AppLayout = ({ routes }: IProps) => {
             {dom}
           </NavLink>
         )}
-        rightContentRender={() => <RightContent />}
-        menu={{
-          request: async () => {
-            await waitTime(1000);
-            return menuItems;
-          },
-        }}
       >
-        <Switch>
-          {routes?.map((route) => (
-            <Route
-              key={route.path}
-              path={route.path}
-              exact={route.exact}
-              component={route.page}
-            />
-          ))}
-        </Switch>
+        <Outlet />
       </ProLayout>
     </div>
   );

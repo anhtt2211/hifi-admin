@@ -1,26 +1,40 @@
 import { IRoute } from '@/models/route';
 import { Welcome } from '@/pages';
-import Chatting from '@/pages/Chatting';
-import NotFound from '@/pages/not-found';
-import Recruiters from '@/pages/recruiters';
+import Categories from '@/pages/categories';
+import CategoryDetails from '@/pages/categories/subcategories';
+import { Recruiters } from '@/pages/recruiters';
 import { UserPage } from '@/pages/users/index';
-import React from 'react';
 
 export const adminRoutes: IRoute[] = [
   {
     path: '/',
     exact: true,
-    page: Welcome,
+    page: <Welcome />,
   },
   {
     path: '/users',
     exact: true,
-    page: UserPage,
+    page: <UserPage />,
+  },
+  {
+    path: '/categories',
+    exact: true,
+    page: <Categories />,
+  },
+  {
+    path: '/categories/edit/:id',
+    exact: true,
+    page: <Categories />,
+  },
+  {
+    path: '/categories/:id',
+    exact: true,
+    page: <CategoryDetails />,
   },
   {
     path: '/recruiters',
     exact: true,
-    page: Recruiters,
+    page: <Recruiters />,
   },
   {
     path: '/chatting',
