@@ -28,6 +28,7 @@ export const PostDetails = (props: Props) => {
       try {
         const res = await postApi.getById(id);
         if (res.data.data) {
+          console.log(res.data.data);
           setData(res.data.data);
         }
       } catch (error) {
@@ -104,8 +105,10 @@ export const PostDetails = (props: Props) => {
         </Col>
         <Row style={{ marginTop: '10px' }}>
           <div style={{ fontSize: '1rem', marginBottom: '20px' }}>
-            <Col span={24}>Netcompany · Ho Chi Minh City, Viet Nam</Col>
-            <Col span={24}>On-site · 1 week ago </Col>
+            <Col span={24}>
+              {' '}
+              {`${data?.company?.name} · ${data?.locations[0]}`}
+            </Col>
           </div>
           <Col span={24}>
             <DescriptionItem
@@ -121,13 +124,13 @@ export const PostDetails = (props: Props) => {
           <Col span={24}>
             <DescriptionItem
               iconName="BriefcaseIcon"
-              content="FullTime · Senior level"
+              content={`${data?.jobType}`}
             />
           </Col>
           <Col span={24}>
             <DescriptionItem
               iconName="OfficeBuildingIcon"
-              content="501-1,000 employees · Software Development"
+              content={data?.jobCategory.name ?? ''}
             />
           </Col>
         </Row>
