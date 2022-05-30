@@ -3,11 +3,10 @@ import { Post } from '@/models/post';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
-
 type PostState = {
   loading?: boolean;
   list: Post[];
-}
+};
 
 const initialState: PostState = {
   loading: false,
