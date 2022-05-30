@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const companyApi = {
   getAllCompanies: async (name: string | undefined, status: string) => {
-    return await axiosClient.get('/companies/', {
+    return await axiosClient.get('/admin/companies/', {
       params: {
         name: name,
         status: status,
@@ -11,19 +11,21 @@ const companyApi = {
   },
 
   getCompany: async (id: String) => {
-    return await axiosClient.get(`/companies/${id}`);
+    return await axiosClient.get(`/admin/companies/${id}`);
   },
 
   approve: async (id: String, message: String) => {
-    return await axiosClient.post(`/companies/${id}/approve`, { message });
+    return await axiosClient.post(`/admin/companies/${id}/approve`, {
+      message,
+    });
   },
 
   reject: async (id: String, message: String) => {
-    return await axiosClient.post(`/companies/${id}/reject`, { message });
+    return await axiosClient.post(`/admin/companies/${id}/reject`, { message });
   },
 
   delete: async (id: String) => {
-    return await axiosClient.delete(`/companies/${id}`);
+    return await axiosClient.delete(`/admin/companies/${id}`);
   },
 };
 

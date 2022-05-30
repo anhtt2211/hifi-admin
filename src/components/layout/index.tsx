@@ -2,6 +2,7 @@ import { menuItems } from '@/constants/menuItems';
 import ProLayout from '@ant-design/pro-layout';
 import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import RightContent from './right-content';
 
 export const AppLayout = () => {
   const [pathname, setPathname] = useState(window.location.pathname);
@@ -30,6 +31,7 @@ export const AppLayout = () => {
             {title}
           </Link>
         )}
+        rightContentRender={() => <RightContent />}
         menuItemRender={(item: any, dom: any) => (
           <NavLink
             to={`${item.path}`}

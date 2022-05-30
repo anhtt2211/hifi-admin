@@ -22,5 +22,10 @@ export const menuItems = {
       path: '/recruiters',
       exact: true,
     },
+    {
+      name: 'Chatting',
+      path: '/chatting',
+      exact: true,
+    },
   ],
 };
