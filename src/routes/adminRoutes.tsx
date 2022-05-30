@@ -1,3 +1,4 @@
+import { PostDetails } from '@/components/post/PostDetails';
 import { IRoute } from '@/models/route';
 import Welcome from '@/pages';
 import Categories from '@/pages/categories';
@@ -5,6 +6,7 @@ import CategoryDetails from '@/pages/categories/subcategories';
 import Chatting from '@/pages/Chatting';
 import NotFound from '@/pages/not-found';
 import Recruiters from '@/pages/recruiters';
+import { PostPage } from '@/pages/posts';
 import { UserPage } from '@/pages/users/index';
 
 export const adminRoutes: IRoute[] = [
@@ -17,6 +19,16 @@ export const adminRoutes: IRoute[] = [
     path: '/users',
     exact: true,
     page: <UserPage />,
+  },
+  {
+    path: '/posts',
+    exact: true,
+    page: <PostPage />,
+  },
+  {
+    path: '/posts/:id',
+    exact: true,
+    page: <PostDetails />,
   },
   {
     path: '/categories',

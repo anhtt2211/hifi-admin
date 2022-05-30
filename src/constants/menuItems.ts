@@ -13,14 +13,19 @@ export const menuItems = {
       name: 'Category',
     },
     {
+      path: '/posts',
+      name: 'Posts',
+      exact: true,
+    },
+    {
       name: 'Recruiters',
       path: '/recruiters',
       exact: true,
     },
     {
-    name: 'Chatting',
-    path: '/chatting',
-    exact: true,
+      name: 'Chatting',
+      path: '/chatting',
+      exact: true,
     },
   ],
 };
