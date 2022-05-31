@@ -20,6 +20,15 @@ const skillTagApi = {
 
     return data;
   },
+  createBatchSkillTags: async (skillData: string[]) => {
+    const {
+      data: { data },
+    } = await axiosClient.post('/admin/skills/batch', {
+      skills: skillData,
+    });
+
+    return data;
+  },
   updateSkillTag: async (id: string, skillData: any) => {
     const {
       data: { data },

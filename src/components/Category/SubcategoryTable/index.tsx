@@ -1,7 +1,14 @@
+import { subcategorytApi } from '@/api';
+import { Subcategory } from '@/types';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+  LeftOutlined,
+} from '@ant-design/icons';
 import {
   Button,
   Card,
-  Col,
   Form,
   Input,
   message,
@@ -10,17 +17,10 @@ import {
   Table,
   Tooltip,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/es/table';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  ExclamationCircleOutlined,
-} from '@ant-design/icons';
-import { Subcategory } from '@/types';
 import confirm from 'antd/lib/modal/confirm';
-import { subcategorytApi } from '@/api';
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 interface IProps {
   isLoading: Boolean;
@@ -31,8 +31,8 @@ const SubcategoryTable = (props: IProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState<Subcategory>();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const { id } = useParams();
-  const { state } = useLocation();
 
   useEffect(() => {
     if (!props.isLoading) {
@@ -45,12 +45,9 @@ const SubcategoryTable = (props: IProps) => {
 
   const columns: ColumnsType<Subcategory> = [
     {
-      title: 'ID',
-      dataIndex: '_id',
-    },
-    {
       title: 'Name',
       dataIndex: 'name',
+      width: '70%',
     },
     {
       title: '',
@@ -127,6 +124,15 @@ const SubcategoryTable = (props: IProps) => {
 
   return (
     <>
+      <Button
+        onClick={() => {
+          navigate('/categories');
+        }}
+        style={{ marginBottom: 10 }}
+        icon={<LeftOutlined />}
+      >
+        Back
+      </Button>
       <Card>
         <Table<Subcategory>
           bordered

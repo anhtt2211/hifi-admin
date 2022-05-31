@@ -23,14 +23,9 @@ const SkillTagTable = (props: IProps) => {
   const [searching, setSearching] = useState(false);
   const columns: ColumnsType<SkillTag> = [
     {
-      title: 'ID',
-      dataIndex: '_id',
-      width: '10%',
-    },
-    {
       title: 'Name',
       dataIndex: 'text',
-      width: '60%',
+      width: '70%',
     },
     {
       title: '',
