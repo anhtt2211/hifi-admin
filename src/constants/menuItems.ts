@@ -22,5 +22,10 @@ export const menuItems = {
       path: '/recruiters',
       exact: true,
     },
+    {
+      name: 'Skill tags',
+      path: '/skill-tags',
+      exact: true,
+    },
   ],
 };

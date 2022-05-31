@@ -3,7 +3,7 @@ import CheckboxMenu from '@/components/commons/CheckboxMenu';
 import { HeaderPost } from '@/components/post/Header';
 import ListPost from '@/components/post/ListPost';
 import { Post } from '@/models/post';
-import { Button, Card, Col, Input, Row, Select, Tabs } from 'antd';
+import { Button, Card, Col, Input, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';

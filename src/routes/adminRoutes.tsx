@@ -5,6 +5,7 @@ import Categories from '@/pages/categories';
 import CategoryDetails from '@/pages/categories/subcategories';
 import { PostPage } from '@/pages/posts';
 import { Recruiters } from '@/pages/recruiters';
+import SkillTagPage from '@/pages/skill-tags';
 import { UserPage } from '@/pages/users/index';
 
 export const adminRoutes: IRoute[] = [
@@ -47,5 +48,10 @@ export const adminRoutes: IRoute[] = [
     path: '/recruiters',
     exact: true,
     page: <Recruiters />,
+  },
+  {
+    path: '/skill-tags',
+    exact: true,
+    page: <SkillTagPage />,
   },
 ];
