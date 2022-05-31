@@ -1,12 +1,13 @@
 import { ConfigProvider } from 'antd';
 import 'antd/dist/antd.less';
 import enUS from 'antd/lib/locale/en_US';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import './App.less';
 import App from './App';
-import './App.css';
-import './index.css';
+import './index.less';
 import store from './redux/store';
 
 ReactDOM.render(

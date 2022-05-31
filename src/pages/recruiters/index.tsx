@@ -1,6 +1,8 @@
 import companyApi from '@/api/companyApi';
 import { ApprovalDiglog } from '@/components/recruiters/ApprovalDialog';
-import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { color } from '@/constants/badgeColors';
+import socket from '@/utils/messageSocket';
+import { DeleteOutlined, EyeOutlined, WechatOutlined } from '@ant-design/icons';
 import {
   Breadcrumb,
   Button,
@@ -14,13 +16,14 @@ import {
   Skeleton,
   Space,
   Table,
+  Tag,
   Tooltip,
 } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../utils/notification';
 
 const { Search } = Input;
@@ -47,7 +50,7 @@ interface Industry {
   _id: string;
 }
 
-export const Recruiters = () => {
+const Recruiters = () => {
   const [visible, setVisible] = useState(false);
   const [dataSource, setDataSource] = useState<Company[]>();
   const [selectedCompany, setSelectedCompany] = useState<Company>();
@@ -57,6 +60,8 @@ export const Recruiters = () => {
   const [loading, setLoading] = useState(false);
   const [visibleConfirm, setVisibleConfirm] = useState(false);
   const [loadingSke, setLoadingSke] = useState(true);
+  const adminId = localStorage.getItem('adminId');
+  const navigate = useNavigate();
 
   const columns: ColumnsType<Company> = [
     {
@@ -66,12 +71,32 @@ export const Recruiters = () => {
       align: 'center',
     },
     {
+      title: 'Industries',
+      dataIndex: 'industries',
+      align: 'center',
+      width: '15%',
+      render: (industries: any) => {
+        return (
+          <Row>
+            {industries.map((category: any, index: number) => (
+              <Tag
+                color={color[Math.floor(Math.random() * color.length)]}
+                key={index}
+              >
+                {category.name}
+              </Tag>
+            ))}
+          </Row>
+        );
+      },
+    },
+    {
       title: 'Description',
       dataIndex: 'summary',
       align: 'center',
       render: (summary: string) => {
         return (
-          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+          <Paragraph ellipsis={{ rows: 3, expandable: true, symbol: 'more' }}>
             {summary}
           </Paragraph>
         );
@@ -81,7 +106,7 @@ export const Recruiters = () => {
       title: '',
       dataIndex: '_id',
       align: 'center',
-      width: '10%',
+      width: '15%',
       render: (idRecruiter: string) => {
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -90,6 +115,15 @@ export const Recruiters = () => {
                 icon={<EyeOutlined />}
                 onClick={() => {
                   handleViewDetail(idRecruiter);
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="Chat">
+              <Button
+                type="primary"
+                icon={<WechatOutlined />}
+                onClick={() => {
+                  handleChat(idRecruiter);
                 }}
               />
             </Tooltip>
@@ -161,7 +195,9 @@ export const Recruiters = () => {
 
   const handleViewDetail = (idRecruiter: string) => {
     setVisible(true);
-    var company = dataSource?.find((company) => company?._id == idRecruiter);
+    var company = dataSource?.find(
+      (company: Company) => company?._id == idRecruiter,
+    );
     setSelectedCompany(company);
     if (company?.accountStatus != 'pending') {
       setCanApprove(false);
@@ -200,6 +236,16 @@ export const Recruiters = () => {
         </Card>
       </Col>
     );
+  };
+
+  const handleChat = (recruiterId: string) => {
+    socket.connect();
+    socket.emit('joinRoomByChatterId', {
+      admin: adminId,
+      company: recruiterId,
+    });
+
+    navigate('/chatting');
   };
 
   useEffect(() => {
@@ -266,7 +312,9 @@ export const Recruiters = () => {
         data={selectedCompany}
         visible={visible}
         handleCancel={handleClose}
-      ></ApprovalDiglog>
+      />
     </>
   );
 };
+
+export default Recruiters;
