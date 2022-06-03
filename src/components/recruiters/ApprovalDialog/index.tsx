@@ -2,7 +2,6 @@ import companyApi from '@/api/companyApi';
 import notificationSocket from '@/utils/notificationSocket';
 import { capitalizeFirstLetter } from '@/utils/string';
 import { Badge, Button, Descriptions, Input, Modal, Tag } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
 import moment from 'moment';
 import React, { FC, useEffect, useState } from 'react';
 import { openNotification } from '../../../utils/notification';
@@ -106,7 +105,7 @@ export const ApprovalDiglog: FC<IProps> = (props) => {
       receiverType: 'company',
       receiver: data?._id,
       message: message,
-      redirectUrl: import.meta.env.VITE_EMPLOYER_URL,
+      redirectUrl: '',
       createdAt: moment(),
     };
 
@@ -134,9 +133,7 @@ export const ApprovalDiglog: FC<IProps> = (props) => {
 
   useEffect(() => {
     if (data) {
-      notificationSocket.connect();
       notificationSocket.emit('joinNotification', {
-        sender: userId,
         receiver: data?._id,
       });
     }

@@ -1,6 +1,7 @@
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 import moment from 'moment';
 import React, { FC, useState } from 'react';
 import socket from '@/utils/messageSocket';

@@ -20,8 +20,6 @@ export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(authState);
-
     if (authState.auth || accessToken) {
       setLayout(
         <Route element={<AppLayout />}>
