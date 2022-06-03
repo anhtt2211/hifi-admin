@@ -15,7 +15,14 @@ const Notifications: FC<IProp> = (props) => {
   }, [user]);
 
   return (
-    <div style={{ width: 300 }}>
+    <div
+      style={{
+        width: 300,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        maxHeight: 500,
+      }}
+    >
       <Typography.Title style={{ fontSize: '20px' }}>
         Notifications
       </Typography.Title>
