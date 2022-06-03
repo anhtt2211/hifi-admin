@@ -43,7 +43,7 @@ export const authSlice = createSlice({
       state.loading = false;
     },
     setUser: (state, action: PayloadAction<Admin>) => {
-      state.auth = action.payload;
+      state.auth.data = action.payload;
     },
   },
 });

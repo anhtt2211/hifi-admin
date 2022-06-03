@@ -12,14 +12,13 @@ import { Notification } from '@/types';
 
 const RightContent = () => {
   const avatarUrl = 'https://joeschmoe.io/api/v1/random';
-  const auth = useAppSelector($auth);
+  const auth = useAppSelector($auth).auth;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (auth) {
-      notificationSocket.connect();
       notificationSocket.emit('joinNotification', {
-        receiver: auth?.auth?.data?._id,
+        receiver: auth?.data?._id,
       });
     }
   }, [auth]);
@@ -49,7 +48,7 @@ const RightContent = () => {
         >
           <Badge
             count={
-              auth?.auth?.data?.notifications.filter(
+              auth?.data?.notifications.filter(
                 (noti: Notification) => !noti.isRead,
               ).length
             }
@@ -69,11 +68,7 @@ const RightContent = () => {
           <Avatar
             style={{ cursor: 'pointer' }}
             shape="square"
-            src={
-              auth?.auth?.data?.photoUrl
-                ? auth?.auth?.data?.photoUrl
-                : avatarUrl
-            }
+            src={auth?.data?.photoUrl ? auth?.data?.photoUrl : avatarUrl}
           />
         </Popover>
       </Col>
