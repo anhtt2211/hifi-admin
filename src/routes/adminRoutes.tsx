@@ -8,6 +8,7 @@ import NotFound from '@/pages/not-found';
 import Recruiters from '@/pages/recruiters';
 import { PostPage } from '@/pages/posts';
 import { UserPage } from '@/pages/users/index';
+import Profile from '@/pages/profile';
 
 export const adminRoutes: IRoute[] = [
   {
@@ -54,6 +55,11 @@ export const adminRoutes: IRoute[] = [
     path: '/chatting',
     exact: true,
     page: <Chatting />,
+  },
+  {
+    path: '/profile',
+    exact: true,
+    page: <Profile />,
   },
   {
     path: '*',

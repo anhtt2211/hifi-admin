@@ -26,7 +26,7 @@ const Notifications: FC<IProp> = (props) => {
       <Typography.Title style={{ fontSize: '20px' }}>
         Notifications
       </Typography.Title>
-      {user.data?.notifications
+      {user?.data?.notifications
         .slice(0)
         .reverse()
         .map((notification: Notification) => {

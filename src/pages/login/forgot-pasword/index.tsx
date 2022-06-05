@@ -1,64 +1,46 @@
+import authApi from '@/api/authApi';
+import { setUser } from '@/redux/slices/authSlices';
 import { LockTwoTone, UserOutlined } from '@ant-design/icons';
-import { Alert, Button, Card, Col, Form, Input, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Card, Col, Form, Input, notification, Row } from 'antd';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../../assets/images/logo.svg';
 import styles from './index.module.less';
-import bcrypt from 'bcryptjs';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { $auth, loginRequest } from '@/redux/slices/authSlices';
 
-const hash = (text: string) => {
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(text, salt);
-  return hash;
-};
-
-interface IFormData {
-  username: string;
-  password: string;
-}
-
-const Login = () => {
+const ForgotPassword = () => {
   let navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const authState = useAppSelector($auth);
-  const [loading, setLoading] = useState(false);
-  const [isFailed, setIsFailed] = useState('0');
-  const [failedMessage, setFailedMessage] = useState('');
-  const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
-  const login = (values: IFormData) => {
+  const login = (values: any) => {
     setLoading(true);
     let data = {
       username: values.username,
       password: values.password,
+      confirmPassword: values.confirmPassword,
     };
-    dispatch(loginRequest(data));
+
+    authApi
+      .resetPassword(data)
+      .then((res) => {
+        notification.success({
+          message: 'Notification',
+          description: 'Reset password successfully',
+        });
+        setTimeout(() => {
+          navigate(`/login`);
+        }, 2000);
+      })
+      .catch((err) => {
+        notification.error({
+          message: 'Notification',
+          description: 'Reset password successfully',
+        });
+      });
   };
 
-  let noticeFailed = () => {
-    handleFailed('Please fill in all input fields!');
-  };
-
-  const handleFailed = (message: string) => {
-    setFailedMessage(message);
-
-    setIsFailed('1');
-    setTimeout(function () {
-      setIsFailed('0');
-    }, 5000);
-  };
-
-  useEffect(() => {
-    if (authState.auth) {
-      localStorage.setItem('accessToken', authState.auth.accessToken);
-      localStorage.setItem('adminId', authState.auth.data._id);
-      navigate('/');
-    }
-  }, [authState]);
-
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
   return (
     <div className={styles.content}>
       <div className={styles.container}>
@@ -68,18 +50,14 @@ const Login = () => {
               <div style={{ margin: '1.5rem 0' }}>
                 <div style={{ textAlign: 'center' }}>
                   <img src={logo} style={{ height: '5rem' }} />
-                  <p>Welcom to Hifi Admin!</p>
+                  <p>Enter your username!</p>
                 </div>
                 <Row justify="center">
                   <Col xs={24} sm={24} md={20} lg={20}>
-                    <div style={{ opacity: `${isFailed}` }}>
-                      <Alert message={failedMessage} type="error" showIcon />
-                    </div>
                     <Form
                       id="login-form"
                       layout="vertical"
                       onFinish={login}
-                      onFinishFailed={noticeFailed}
                       form={form}
                       initialValues={{
                         remember: true,
@@ -101,7 +79,7 @@ const Login = () => {
                         ></Input>
                       </Form.Item>
                       <Form.Item
-                        label="Password"
+                        label="New Password"
                         name="password"
                         rules={[
                           {
@@ -117,14 +95,26 @@ const Login = () => {
                         <Input.Password
                           placeholder="Password"
                           prefix={<LockTwoTone />}
-                        />
+                        ></Input.Password>
                       </Form.Item>
-                      <Form.Item>
-                        <Link to={`/forgot-password`}>
-                          <Button className={styles['btn-forgot']} type="link">
-                            Forgot password?
-                          </Button>
-                        </Link>
+                      <Form.Item
+                        label="Confirm Password"
+                        name="confirmPassword"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your password!',
+                          },
+                          {
+                            min: 6,
+                            message: 'Password must be minimum 6 characters.',
+                          },
+                        ]}
+                      >
+                        <Input.Password
+                          placeholder="Confirm Password"
+                          prefix={<LockTwoTone />}
+                        ></Input.Password>
                       </Form.Item>
                       <Form.Item>
                         <Button
@@ -134,7 +124,7 @@ const Login = () => {
                           block={true}
                           loading={loading}
                         >
-                          Sign In
+                          Reset Password
                         </Button>
                       </Form.Item>
                     </Form>
@@ -149,4 +139,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
