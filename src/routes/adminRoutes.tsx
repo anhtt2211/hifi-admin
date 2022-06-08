@@ -9,6 +9,7 @@ import { PostPage } from '@/pages/posts';
 import Recruiters from '@/pages/recruiters';
 import SkillTagPage from '@/pages/skill-tags';
 import { UserPage } from '@/pages/users/index';
+import Profile from '@/pages/profile';
 
 export const adminRoutes: IRoute[] = [
   {
@@ -60,6 +61,11 @@ export const adminRoutes: IRoute[] = [
     path: '/chatting',
     exact: true,
     page: <Chatting />,
+  },
+  {
+    path: '/profile',
+    exact: true,
+    page: <Profile />,
   },
   {
     path: '*',

@@ -12,6 +12,26 @@ const authApi = {
     return response.data;
   },
 
+  resetPassword: async (data: any) => {
+    var response = await axiosClient.put(`${baseController}reset-password`, {
+      username: data.username,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    });
+
+    return response.data;
+  },
+
+  changePassword: async (data: any) => {
+    var response = await axiosClient.put(`${baseController}change-password`, {
+      username: data.username,
+      password: data.password,
+      currentPassword: data.currentPassword,
+    });
+
+    return response.data;
+  },
+
   getAuth: async (admin: any) => {
     var response = await axiosClient.get(`${baseController}`, {});
 
