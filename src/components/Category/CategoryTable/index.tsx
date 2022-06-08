@@ -1,6 +1,6 @@
 import { Button, Card, Col, notification, Row, Table, Tooltip } from 'antd';
 import Search from 'antd/lib/input/Search';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/es/table';
 import {
   DeleteOutlined,
@@ -22,14 +22,12 @@ interface IProps {
 const CategoryTable = (props: IProps) => {
   const navigate = useNavigate();
 
+  const [categories, setCategories] = useState<Category[]>(props.data);
   const columns: ColumnsType<Category> = [
-    {
-      title: 'ID',
-      dataIndex: '_id',
-    },
     {
       title: 'Name',
       dataIndex: 'name',
+      width: '70%',
     },
     {
       title: '',
@@ -37,7 +35,7 @@ const CategoryTable = (props: IProps) => {
       align: 'center',
       render: (_id: string, category) => {
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', gap: 20 }}>
             <Tooltip title="View details">
               <Button
                 type="primary"
@@ -91,11 +89,15 @@ const CategoryTable = (props: IProps) => {
   };
 
   const handleSearch = (value: string) => {
-    // const tmp = props.data.filter(
-    //   (e) => e.name.toLowerCase().search(value.toLowerCase()) >= 0,
-    // );
-    // props.setData(tmp);
+    const tmp = props.data.filter(
+      (e) => e.name.toLowerCase().search(value.toLowerCase()) >= 0,
+    );
+    setCategories(tmp);
   };
+
+  useEffect(() => {
+    setCategories(props.data);
+  }, [props.data]);
 
   return (
     <Card>
@@ -115,7 +117,7 @@ const CategoryTable = (props: IProps) => {
           <Table<Category>
             bordered
             columns={columns}
-            dataSource={props.data}
+            dataSource={categories}
             rowKey={(row) => row._id}
             pagination={{
               defaultPageSize: 10,
