@@ -8,10 +8,7 @@ export const menuItems = {
       path: '/users',
       name: 'Users',
     },
-    {
-      path: '/categories',
-      name: 'Category',
-    },
+
     {
       path: '/posts',
       name: 'Posts',
@@ -20,6 +17,15 @@ export const menuItems = {
     {
       name: 'Recruiters',
       path: '/recruiters',
+      exact: true,
+    },
+    {
+      path: '/categories',
+      name: 'Category',
+    },
+    {
+      name: 'Skill tags',
+      path: '/skill-tags',
       exact: true,
     },
     {

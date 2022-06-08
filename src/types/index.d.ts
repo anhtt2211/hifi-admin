@@ -1,3 +1,7 @@
+type SkillTag = {
+  _id: string;
+  text: string;
+};
 type Message = {
   userId: string;
   content: string;
@@ -71,6 +75,7 @@ type Subcategory = {
 export type {
   Category,
   Subcategory,
+  SkillTag,
   Admin,
   Company,
   Room,

@@ -1,13 +1,13 @@
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { $auth, loginRequest } from '@/redux/slices/authSlices';
 import { LockTwoTone, UserOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Col, Form, Input, Row } from 'antd';
+import bcrypt from 'bcryptjs';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.svg';
 import styles from './index.module.less';
-import bcrypt from 'bcryptjs';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { $auth, loginRequest } from '@/redux/slices/authSlices';
 
 const hash = (text: string) => {
   const salt = bcrypt.genSaltSync(10);
