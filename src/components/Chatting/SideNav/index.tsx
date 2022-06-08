@@ -20,6 +20,7 @@ const SideNav: FC<IProps> = (props) => {
   const userId = localStorage.getItem('adminId');
   const [rooms, setRooms] = useState<Room[]>([]);
   const [roomId, setRoomId] = useState<string>();
+  const [searchName, setSearchName] = useState<string>('');
   const dispatch = useAppDispatch();
   const chatting = useAppSelector($chatting);
   const [receivedData, setReceivedData] = useState<Room>();
@@ -30,6 +31,10 @@ const SideNav: FC<IProps> = (props) => {
     rooms.forEach((room) => {
       socket.emit('joinRoom', room._id);
     });
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchName(value);
   };
 
   useEffect(() => {
@@ -93,23 +98,31 @@ const SideNav: FC<IProps> = (props) => {
       <Title level={3}>Chats</Title>
       <Input
         prefix={<SearchOutlined />}
+        onChange={(event: any) => handleSearch(event.target.value)}
         placeholder="Search or start new chat"
         className={styles['search-input']}
       />
       <div className={styles.container}>
-        {rooms.map((room) => {
-          return (
-            <ChatUserItem
-              lastMessage={room.messages[room.messages.length - 1]}
-              key={room._id}
-              roomId={room._id}
-              chatter={room.chatters.find(
-                (chatter) => chatter.chatterId != userId,
-              )}
-              selected={room._id === roomId}
-            />
-          );
-        })}
+        {rooms
+          .filter((room) =>
+            room.chatters
+              .find((chatter) => chatter.chatterId != userId)
+              ?.name.toLowerCase()
+              .includes(searchName.toLowerCase()),
+          )
+          .map((room) => {
+            return (
+              <ChatUserItem
+                lastMessage={room.messages[room.messages.length - 1]}
+                key={room._id}
+                roomId={room._id}
+                chatter={room.chatters.find(
+                  (chatter) => chatter.chatterId != userId,
+                )}
+                selected={room._id === roomId}
+              />
+            );
+          })}
       </div>
     </div>
   );
