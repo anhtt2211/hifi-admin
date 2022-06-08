@@ -34,8 +34,11 @@ const ForgotPassword = () => {
       .catch((err) => {
         notification.error({
           message: 'Notification',
-          description: 'Reset password successfully',
+          description: 'Reset password failure',
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

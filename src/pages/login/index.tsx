@@ -27,9 +27,11 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [isFailed, setIsFailed] = useState('0');
   const [failedMessage, setFailedMessage] = useState('');
+  const [isSubmit, setIsSubmit] = useState(false);
   const [form] = Form.useForm();
 
   const login = (values: IFormData) => {
+    setIsSubmit(true);
     setLoading(true);
     let data = {
       username: values.username,
@@ -56,6 +58,11 @@ const Login = () => {
       localStorage.setItem('accessToken', authState.auth.accessToken);
       localStorage.setItem('adminId', authState.auth.data._id);
       navigate('/');
+    } else {
+      if (authState.loading == false && isSubmit) {
+        handleFailed('Password or username is incorrect!');
+        setLoading(false);
+      }
     }
   }, [authState]);
 
