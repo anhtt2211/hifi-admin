@@ -10,9 +10,12 @@ import ChatItem from './ChatItem';
 import styles from './index.module.less';
 import { Message, Room } from '@/types';
 
-interface IProps {}
+interface IProps {
+  chatterAvatar?: string;
+}
 
 const ChatBoxContent: FC<IProps> = (props) => {
+  const { chatterAvatar } = props;
   const chatting = useAppSelector($chatting);
   const [messageList, setMessageList] = useState<Message[]>([]);
   const userId = localStorage.getItem('adminId');
@@ -33,6 +36,7 @@ const ChatBoxContent: FC<IProps> = (props) => {
               isMine={message.userId === userId}
               message={message.content}
               date={message.createdAt}
+              avatar={message.userId === userId ? '' : chatterAvatar}
             />
           );
         })}
