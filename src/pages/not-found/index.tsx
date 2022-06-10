@@ -10,8 +10,8 @@ const NotFound = () => {
         title="404"
         subTitle="Sorry, the page you visited does not exist."
         extra={
-          <Link to="/">
-            <Button type="primary">Back to home</Button>
+          <Link to="/posts">
+            <Button type="primary">Back to posts</Button>
           </Link>
         }
       />
