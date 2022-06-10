@@ -1,15 +1,16 @@
 import companyApi from '@/api/companyApi';
+import { Company } from '@/types';
 import notificationSocket from '@/utils/notificationSocket';
 import { capitalizeFirstLetter } from '@/utils/string';
 import { Badge, Button, Descriptions, Input, Modal, Tag } from 'antd';
 import moment from 'moment';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { openNotification } from '../../../utils/notification';
 
 interface IProps {
   visible: boolean;
   handleCancel: () => void;
-  data: any;
+  data: Company;
   canApprove: boolean;
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -182,8 +183,15 @@ export const ApprovalDiglog: FC<IProps> = (props) => {
         </Descriptions.Item>
         <Descriptions.Item label="Email">{data?.email}</Descriptions.Item>
         <Descriptions.Item label="Address" span={2}>
-          {data?.locations[0].officeName} {data?.locations[0].address}{' '}
-          {data?.locations[0].city}
+          <ul style={{ marginBottom: 0 }}>
+            {data?.locations?.map((location) => (
+              <li>
+                {location.officeName} - {location.address}, {location.city}
+              </li>
+            ))}
+          </ul>
+          {/* {data?.locations[0].officeName} {data?.locations[0].address}{' '}
+          {data?.locations[0].city} */}
         </Descriptions.Item>
         <Descriptions.Item label="Phone Number">
           {data?.phoneNumber}

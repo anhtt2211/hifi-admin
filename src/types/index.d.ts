@@ -31,6 +31,12 @@ type Chatter = {
   avatar: string;
   type: string;
 };
+type WorkLocation = {
+  _id: string;
+  officeName?: string;
+  city?: string;
+  address?: string;
+};
 
 type Company = {
   _id: string;
@@ -40,7 +46,8 @@ type Company = {
   phoneNumber: string;
   industries: [];
   address: string;
-  locations: [];
+  locations: WorkLocation[];
+  logo: string;
   size: string;
   contactName: string;
   summary: string;
@@ -48,7 +55,7 @@ type Company = {
   notifications: Notification[];
 };
 
-export type Notification = {
+type Notification = {
   message: string;
   createdAt: Date;
   redirectUrl: string;
@@ -82,4 +89,6 @@ export type {
   User,
   Message,
   Chatter,
+  Notification,
+  WorkLocation,
 };

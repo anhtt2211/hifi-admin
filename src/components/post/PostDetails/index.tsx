@@ -1,6 +1,6 @@
 import postApi from '@/api/postApi';
 import { Post, Skill } from '@/models/post';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, LeftOutlined } from '@ant-design/icons';
 import {
   Button,
   Card,
@@ -11,8 +11,9 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import DescriptionItem from '../DescriptionItem';
 import styles from './index.module.less';
 
@@ -28,7 +29,7 @@ export const PostDetails = (props: Props) => {
       try {
         const res = await postApi.getById(id);
         if (res.data.data) {
-          console.log(res.data.data);
+          console.log('Post: ', res.data.data);
           setData(res.data.data);
         }
       } catch (error) {
@@ -67,6 +68,14 @@ export const PostDetails = (props: Props) => {
   return (
     <Card className={styles.container}>
       <div className={styles.titleContainer}>
+        <Button
+          icon={<LeftOutlined />}
+          onClick={() => {
+            navigate('/posts');
+          }}
+        >
+          Back
+        </Button>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <span className={styles.title}>{data?.title}</span>
           {data?.verficationStatus == 'pending' && (
@@ -104,10 +113,30 @@ export const PostDetails = (props: Props) => {
           ))}
         </Col>
         <Row style={{ marginTop: '10px' }}>
-          <div style={{ fontSize: '1rem', marginBottom: '20px' }}>
+          <div style={{ fontSize: '1rem', marginBottom: '16 px' }}>
             <Col span={24}>
-              {' '}
-              {`${data?.company?.name} · ${data?.locations[0]}`}
+              <p
+                className={styles.link}
+                onClick={() => {
+                  console.log('Clicked: ', data?.company);
+
+                  navigate('/recruiters', {
+                    state: {
+                      companyId: data?.company._id,
+                    },
+                  });
+                }}
+              >
+                {data?.company?.name}
+              </p>
+              {` • ${data?.company?.locations
+                ?.map((l) => l.city)
+                .filter(function (item, pos, arr) {
+                  return arr.indexOf(item) == pos;
+                })
+                .join(' / ')}`}{' '}
+              ({data?.workplaceType || 'On-site'}) {' • '}
+              {moment(data?.updatedAt).fromNow()}
             </Col>
           </div>
           <Col span={24}>

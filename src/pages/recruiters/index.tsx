@@ -1,6 +1,8 @@
 import companyApi from '@/api/companyApi';
 import { ApprovalDiglog } from '@/components/recruiters/ApprovalDialog';
 import { color } from '@/constants/badgeColors';
+import { DEFAULT_IMAGE } from '@/constants/colors';
+import { Company } from '@/types';
 import socket from '@/utils/messageSocket';
 import { DeleteOutlined, EyeOutlined, WechatOutlined } from '@ant-design/icons';
 import {
@@ -23,26 +25,11 @@ import { ColumnsType } from 'antd/es/table';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../utils/notification';
 
 const { Search } = Input;
-
-interface Company {
-  accountStatus: string;
-  address: string;
-  contactName: string;
-  createdAt: Date;
-  email: string;
-  industries: Array<Industry>;
-  locations: Array<any>;
-  name: string;
-  phoneNumber: string;
-  size: string;
-  summary: string;
-  updatedAt: Date;
-  _id: string;
-}
 
 interface Industry {
   category: string;
@@ -62,8 +49,27 @@ const Recruiters = () => {
   const [loadingSke, setLoadingSke] = useState(true);
   const adminId = localStorage.getItem('adminId');
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const comingCompany = (location.state as any)?.companyId;
+  console.log('comingCompany: ', comingCompany);
   const columns: ColumnsType<Company> = [
+    {
+      title: 'Logo',
+      dataIndex: '_id',
+      width: '10%',
+      align: 'center',
+      render: (_, record) => (
+        <img
+          src={record.logo || DEFAULT_IMAGE}
+          style={{
+            width: '80%',
+            maxWidth: '50px',
+            maxHeight: '50px',
+            height: '80%',
+          }}
+        />
+      ),
+    },
     {
       title: 'Company name',
       dataIndex: 'name',
@@ -264,6 +270,20 @@ const Recruiters = () => {
     }
   }, [dataSource]);
 
+  useEffect(() => {
+    console.log('comingCompanyId', comingCompany);
+    if (comingCompany) {
+      const com = dataSource?.find(
+        (company: Company) => company._id === comingCompany,
+      );
+      console.log('Finded Coming company', com);
+      if (com) {
+        setVisible(true);
+      }
+      setSelectedCompany(com);
+    }
+  }, [dataSource, comingCompany]);
+
   return (
     <>
       <Breadcrumb>
@@ -305,14 +325,16 @@ const Recruiters = () => {
           {!isMobile && renderStatusRadio()}
         </Row>
       </Card>
-      <ApprovalDiglog
-        setLoading={setLoading}
-        loading={loading}
-        canApprove={canApprove}
-        data={selectedCompany}
-        visible={visible}
-        handleCancel={handleClose}
-      />
+      {selectedCompany && (
+        <ApprovalDiglog
+          setLoading={setLoading}
+          loading={loading}
+          canApprove={canApprove}
+          data={selectedCompany}
+          visible={visible}
+          handleCancel={handleClose}
+        />
+      )}
     </>
   );
 };
