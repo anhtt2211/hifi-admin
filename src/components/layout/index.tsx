@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import RightContent from './right-content';
+import logoImage from '@/assets/images/Logo1.png';
 
 export const AppLayout = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ export const AppLayout = () => {
       <ProLayout
         title="Hifi admin"
         fixSiderbar
+        logo={logoImage}
         fixedHeader
         layout="mix"
         contentWidth="Fluid"
