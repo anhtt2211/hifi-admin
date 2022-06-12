@@ -72,7 +72,7 @@ type Category = {
   _id: string;
   name: string;
   imageUrl: any;
-  subcategories: Subcategory[];
+  subcategories?: Subcategory[];
 };
 type Subcategory = {
   _id: string;

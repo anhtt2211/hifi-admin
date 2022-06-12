@@ -9,11 +9,13 @@ import userReducer from './slices/userSlices';
 import chattingReducer from './slices/chattingSlices';
 import authReducer from './slices/authSlices';
 import rootSaga from './rootSaga';
+import categorySlice from './slices/categorySlice';
 
 const rootReducers = combineReducers({
   users: userReducer,
   chatting: chattingReducer,
   auth: authReducer,
+  categories: categorySlice,
 });
 
 const sagaMiddleware = createSagaMiddleware();

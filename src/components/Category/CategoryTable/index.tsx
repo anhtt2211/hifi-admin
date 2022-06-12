@@ -1,28 +1,26 @@
-import { Button, Card, Col, notification, Row, Table, Tooltip } from 'antd';
-import Search from 'antd/lib/input/Search';
-import React, { useEffect, useState } from 'react';
-import { ColumnsType } from 'antd/es/table';
+import categorytApi from '@/api/categoryApi';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { $categories, deleteCategory } from '@/redux/slices/categorySlice';
+import { Category } from '@/types';
 import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
   EyeOutlined,
 } from '@ant-design/icons';
-import { Category } from '@/types';
-import categorytApi from '@/api/categoryApi';
+import { Button, Card, Col, Row, Table, Tooltip } from 'antd';
+import { ColumnsType } from 'antd/es/table';
+import Search from 'antd/lib/input/Search';
 import confirm from 'antd/lib/modal/confirm';
-import { deteteImage } from '@/firebase/services';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-interface IProps {
-  data: Array<Category>;
-  setData: Function;
-}
-
-const CategoryTable = (props: IProps) => {
+const CategoryTable = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const categoriesState = useAppSelector($categories);
+  const [categories, setCategories] = useState<Category[]>(categoriesState);
 
-  const [categories, setCategories] = useState<Category[]>(props.data);
   const columns: ColumnsType<Category> = [
     {
       title: 'Name',
@@ -73,31 +71,18 @@ const CategoryTable = (props: IProps) => {
       async onOk() {
         const res = await categorytApi.deleteCategory(id);
         const { data } = res.data;
-        deteteImage(data.imageUrl);
-        const tmp = props.data.filter((e: any) => e._id != id);
-        props.setData(tmp);
-        data
-          ? notification.success({
-              message: 'Deleted successfully',
-            })
-          : notification.error({
-              message: 'Error',
-            });
+        dispatch(deleteCategory(data));
       },
       onCancel() {},
     });
   };
 
   const handleSearch = (value: string) => {
-    const tmp = props.data.filter(
+    const tmp = categoriesState.filter(
       (e) => e.name.toLowerCase().search(value.toLowerCase()) >= 0,
     );
     setCategories(tmp);
   };
-
-  useEffect(() => {
-    setCategories(props.data);
-  }, [props.data]);
 
   return (
     <Card>

@@ -1,87 +1,77 @@
 import categorytApi from '@/api/categoryApi';
-import { deteteImage, uploadImage } from '@/firebase/services';
-import { Category } from '@/types';
-import { Button, Card, Form, Input, notification } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import {
+  $categories,
+  createCategory,
+  updateCategory,
+} from '@/redux/slices/categorySlice';
+import { Button, Card, Form, Input, message } from 'antd';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import ImageFileUpload from '../ImageFileUpload';
+import ImageUpload from '../ImageFileUpload';
 
-interface IProps {
-  data: Array<Category>;
-  setData: Function;
-}
-
-const AddCategoryForm = (props: IProps) => {
+const AddCategoryForm = () => {
   const [form] = Form.useForm();
   let { id } = useParams();
-  const [category, setCategory] = useState<Category>();
-  const [isEdit, setIsEdit] = useState<Boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigation = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const categoriesState = useAppSelector($categories);
 
   useEffect(() => {
     if (id) {
-      const category = props.data.find((e) => e._id == id);
-      setCategory(category);
-
+      const category = categoriesState.find((e) => e._id == id);
       form.setFieldsValue({
         name: category?.name,
       });
+      if (category?.imageUrl) {
+      }
       setIsEdit(true);
     }
   }, [id]);
 
-  const handleSubmit = async () => {
-    const { name, image } = form.getFieldsValue();
-    let url;
-    if (image) {
-      const res = await uploadImage(image);
-      url = res.url;
-      if (res.error) {
-        notification.error({
-          message: 'Uploaded image failed',
-          description: res.error,
-        });
-        return;
-      }
-    }
+  const handleUploadImage = () => {
     try {
-      if (isEdit) {
-        let res;
-        if (url) {
-          res = await categorytApi.updateCategory(id, {
-            name: name,
-            imageUrl: url,
-          });
-        } else {
-          res = await categorytApi.updateCategory(id, {
-            name: name,
-          });
-        }
-        const updatedCategory = res.data;
-        const updatedCategories = props.data.map((e) =>
-          e._id == id ? updatedCategory : e,
-        );
-        props.setData(updatedCategories);
-        deteteImage(category?.imageUrl);
-        notification.success({
-          message: 'Updated category successfully!',
+      setIsLoading(true);
+      const { image } = form.getFieldsValue();
+      const data = new FormData();
+      data.append('file', image[0]);
+      data.append('upload_preset', 'hifi_upload');
+      data.append('cloud_name', 'hifi');
+
+      axios
+        .post('https://api.cloudinary.com/v1_1/hifi/image/upload', data)
+        .then((res) => {
+          const { url } = res.data;
+          handleSubmit(url);
         });
-      } else {
-        const { data } = await categorytApi.createCategory({
+    } catch (err) {
+      message.error('Error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = (url: string) => {
+    const { name } = form.getFieldsValue();
+
+    if (isEdit) {
+      categorytApi
+        .updateCategory(id, {
           name: name,
           imageUrl: url,
-        });
-        const categories = [...props.data, data];
-        props.setData(categories);
-        notification.success({
-          message: 'Created category successfully!',
-        });
-      }
-    } catch (error: any) {
-      await deteteImage(url);
-      notification.error({
-        message: error,
-      });
+        })
+        .then(({ data }) => dispatch(updateCategory(data.data)));
+    } else {
+      categorytApi
+        .createCategory({
+          name: name,
+          imageUrl: url,
+        })
+        .then(({ data }) => dispatch(createCategory(data.data)));
     }
 
     resetForm();
@@ -100,26 +90,29 @@ const AddCategoryForm = (props: IProps) => {
       <Form
         form={form}
         layout="vertical"
-        onFinish={handleSubmit}
+        onFinish={handleUploadImage}
         onReset={resetForm}
       >
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: 'Please input category name!' }]}
+          rules={[{ required: true, message: 'Please enter category name!' }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Image" name="image">
-          <ImageFileUpload />
+        <Form.Item
+          name="image"
+          rules={[{ required: true, message: 'Please upload category image!' }]}
+        >
+          <ImageUpload />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary" size="large" block>
+          <Button htmlType="submit" type="primary" block loading={isLoading}>
             Save
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button htmlType="reset" type="default" size="large" block>
+          <Button htmlType="reset" type="default" block>
             Discard
           </Button>
         </Form.Item>

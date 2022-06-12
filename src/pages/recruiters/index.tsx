@@ -276,7 +276,6 @@ const Recruiters = () => {
       const com = dataSource?.find(
         (company: Company) => company._id === comingCompany,
       );
-      console.log('Finded Coming company', com);
       if (com) {
         setVisible(true);
       }
@@ -286,12 +285,6 @@ const Recruiters = () => {
 
   return (
     <>
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <NavLink to="/">Dashboard</NavLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Recruiters</Breadcrumb.Item>
-      </Breadcrumb>
       <h3 className="heading">Recruiters</h3>
       <Card>
         <Row gutter={[20, 20]}>
