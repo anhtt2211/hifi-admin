@@ -1,5 +1,5 @@
 import { SendOutlined } from '@ant-design/icons';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 import moment from 'moment';
@@ -18,15 +18,17 @@ const ChatBoxInput: FC<IProps> = (props) => {
   const userId = localStorage.getItem('adminId');
 
   const handleSendMessage = (newMessage: string) => {
-    socket.emit('sendDataClient', {
-      room: roomId,
-      message: {
-        userId: userId,
-        content: newMessage,
-        createdAt: moment(),
-      },
-    });
-    setValue('');
+    if (newMessage != '') {
+      socket.emit('sendDataClient', {
+        room: roomId,
+        message: {
+          userId: userId,
+          content: newMessage,
+          createdAt: moment(),
+        },
+      });
+      setValue('');
+    }
   };
 
   const handleAddEmoji = (emoji: string) => {
