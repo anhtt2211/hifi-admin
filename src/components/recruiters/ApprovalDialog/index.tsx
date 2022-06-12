@@ -106,7 +106,7 @@ export const ApprovalDiglog: FC<IProps> = (props) => {
       receiverType: 'company',
       receiver: data?._id,
       message: message,
-      redirectUrl: '',
+      redirectUrl: '/setting',
       createdAt: moment(),
     };
 
