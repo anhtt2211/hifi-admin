@@ -34,7 +34,12 @@ const ChatBox: FC<IProps> = (props) => {
               (chatter) => chatter.chatterId != userId,
             )}
           ></ChatBoxHeader>
-          <ChatBoxContent />
+          <ChatBoxContent
+            chatterAvatar={
+              room.chatters.find((chatter) => chatter.chatterId != userId)
+                ?.avatar
+            }
+          />
           <ChatBoxInput roomId={room._id}></ChatBoxInput>
         </>
       ) : (

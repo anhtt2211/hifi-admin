@@ -30,8 +30,8 @@ const ChatUserItem: FC<IProps> = (props) => {
       >
         <Col span={5} className={styles.col}>
           <Avatar
-            src="https://joeschmoe.io/api/v1/random"
-            alt="Han Solo"
+            src={chatter?.avatar || 'https://joeschmoe.io/api/v1/random'}
+            alt={chatter?.name}
             size={'large'}
           />
         </Col>
