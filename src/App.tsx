@@ -1,7 +1,7 @@
 import { AppLayout } from '@/components/layout/index';
 import { adminRoutes } from '@/routes/adminRoutes';
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { GuestLayout } from './components/guest-layout';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { guestRoutes } from '@/routes/guestRoutes';
@@ -23,6 +23,7 @@ export default function App() {
     if (authState.auth || accessToken) {
       setLayout(
         <Route element={<AppLayout />}>
+          <Route path="/" element={<Navigate replace to="/posts" />} />
           {adminRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.page} />
           ))}
@@ -31,6 +32,7 @@ export default function App() {
     } else {
       setLayout(
         <Route element={<GuestLayout />}>
+          <Route path="/" element={<Navigate replace to="/login" />} />
           {guestRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.page} />
           ))}
@@ -44,8 +46,4 @@ export default function App() {
   }, []);
 
   return <Routes>{layout}</Routes>;
-}
-
-{
-  /* <AppLayout routes={adminRoutes} />; */
 }

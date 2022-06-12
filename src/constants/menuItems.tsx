@@ -1,5 +1,6 @@
 import {
   HiChat,
+  HiCog,
   HiCollection,
   HiTable,
   HiTag,
@@ -54,6 +55,16 @@ export const menuItems = {
       icon: (
         <span role="img" className="anticon">
           <HiChat size={18} />
+        </span>
+      ),
+    },
+    {
+      name: 'Profile',
+      path: '/profile',
+      exact: true,
+      icon: (
+        <span role="img" className="anticon">
+          <HiCog size={18} />
         </span>
       ),
     },

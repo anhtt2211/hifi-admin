@@ -9,7 +9,7 @@ import { Room } from '@/types';
 import socket from '@/utils/messageSocket';
 import { SearchOutlined } from '@ant-design/icons';
 import { Input, Typography } from 'antd';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ChatUserItem from './ChatUserItem';
 import styles from './index.module.less';
 const { Title } = Typography;
@@ -95,7 +95,6 @@ const SideNav: FC<IProps> = (props) => {
 
   return (
     <div>
-      <Title level={3}>Chats</Title>
       <Input
         prefix={<SearchOutlined />}
         onChange={(event: any) => handleSearch(event.target.value)}

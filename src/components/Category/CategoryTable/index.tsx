@@ -12,7 +12,7 @@ import { Button, Card, Col, Row, Table, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Search from 'antd/lib/input/Search';
 import confirm from 'antd/lib/modal/confirm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const CategoryTable = () => {
@@ -84,6 +84,9 @@ const CategoryTable = () => {
     setCategories(tmp);
   };
 
+  useEffect(() => {
+    setCategories(categoriesState);
+  }, [categoriesState]);
   return (
     <Card>
       <Row gutter={[20, 20]}>
@@ -92,7 +95,7 @@ const CategoryTable = () => {
           <Search
             className="full"
             size="large"
-            placeholder="Search industry"
+            placeholder="Search category"
             allowClear
             enterButton
             onSearch={(e) => handleSearch(e)}

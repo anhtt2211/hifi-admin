@@ -30,7 +30,7 @@ export const AppLayout = () => {
         primaryColor="#446FFC"
         route={menuItems}
         headerTitleRender={(logo: any, title: any) => (
-          <Link to="/" onClick={() => setPathname('/')}>
+          <Link to="/posts" onClick={() => setPathname('/')}>
             {logo}
             {title}
           </Link>

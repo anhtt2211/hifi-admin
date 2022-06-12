@@ -1,9 +1,7 @@
 import ChangePassword from '@/components/profile/change-password';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Breadcrumb, Card, Tabs } from 'antd';
-// import EditProfile from 'components/Setting/EditProfile';
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { LockOutlined } from '@ant-design/icons';
+import { Card, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 
 const { TabPane } = Tabs;
 const Profile = () => {
@@ -15,12 +13,6 @@ const Profile = () => {
   }, []);
   return (
     <div>
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <NavLink to="/">Dashboard</NavLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Profile</Breadcrumb.Item>
-      </Breadcrumb>
       <h3 className="heading">Profile</h3>
       <Card>
         <Tabs tabPosition={'left'} moreIcon={<></>}>
