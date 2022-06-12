@@ -1,14 +1,15 @@
 import { ListParams, ListResponse } from '@/models/common';
 import { Category } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { notification } from 'antd';
 import type { RootState } from '../store';
 
 interface CategoryState {
-  list: Category[];
+  entities: Category[];
 }
 
 const initialState: CategoryState = {
-  list: [],
+  entities: [],
 };
 
 export const categorySlice = createSlice({
@@ -23,14 +24,50 @@ export const categorySlice = createSlice({
       state: CategoryState,
       action: PayloadAction<ListResponse<Category>>,
     ) => {
-      state.list = action.payload.data;
+      state.entities = action.payload.data;
+    },
+    createCategory: (
+      state: CategoryState,
+      { payload }: PayloadAction<Category>,
+    ) => {
+      state.entities.push(payload);
+      notification.success({
+        message: 'Created category successfully!',
+      });
+    },
+    updateCategory: (
+      state: CategoryState,
+      { payload }: PayloadAction<Category>,
+    ) => {
+      notification.success({
+        message: 'Updated category successfully!',
+      });
+      state.entities = state.entities.map((category) =>
+        category._id == payload._id ? payload : category,
+      );
+    },
+    deleteCategory: (
+      state: CategoryState,
+      { payload }: PayloadAction<Category>,
+    ) => {
+      notification.success({
+        message: 'Deleted successfully!',
+      });
+      state.entities = state.entities.filter(
+        (category) => category._id != payload._id,
+      );
     },
   },
 });
 
-export const { fetchCategoriesSuccess, fetchCategoriesRequest } =
-  categorySlice.actions;
+export const {
+  fetchCategoriesSuccess,
+  fetchCategoriesRequest,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} = categorySlice.actions;
 
-export const $categories = (state: RootState) => state.categories;
+export const $categories = (state: RootState) => state.categories.entities;
 
 export default categorySlice.reducer;

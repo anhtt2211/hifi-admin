@@ -9,11 +9,9 @@ import {
 
 function* fetchCategories(action: any) {
   try {
-    const response: ListResponse<Category> = yield call(
-      categorytApi.getAllCategories,
-    );
+    const response: Category[] = yield call(categorytApi.getAllCategories);
 
-    yield put(fetchCategoriesSuccess(response));
+    yield put(fetchCategoriesSuccess(response.data));
   } catch (error) {
     console.log(error);
   }
