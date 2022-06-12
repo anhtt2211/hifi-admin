@@ -1,13 +1,13 @@
 export const menuItems = {
   routes: [
-    {
-      path: '/',
-      name: 'Welcome',
-    },
-    {
-      path: '/users',
-      name: 'Users',
-    },
+    // {
+    //   path: '/',
+    //   name: 'Welcome',
+    // },
+    // {
+    //   path: '/users',
+    //   name: 'Users',
+    // },
 
     {
       path: '/posts',

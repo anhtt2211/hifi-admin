@@ -1,11 +1,14 @@
 import { menuItems } from '@/constants/menuItems';
 import ProLayout from '@ant-design/pro-layout';
 import { useState } from 'react';
+import { useLocation } from 'react-router';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import RightContent from './right-content';
+import logoImage from '@/assets/images/Logo1.png';
 
 export const AppLayout = () => {
-  const [pathname, setPathname] = useState(window.location.pathname);
+  const location = useLocation();
+  const [pathname, setPathname] = useState(location.pathname);
 
   return (
     <div
@@ -16,6 +19,7 @@ export const AppLayout = () => {
       <ProLayout
         title="Hifi admin"
         fixSiderbar
+        logo={logoImage}
         fixedHeader
         layout="mix"
         contentWidth="Fluid"
@@ -36,7 +40,7 @@ export const AppLayout = () => {
           <NavLink
             to={`${item.path}`}
             onClick={() => {
-              setPathname(item.path || '/welcome');
+              setPathname(item.path || '/');
             }}
           >
             {dom}

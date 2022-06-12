@@ -1,3 +1,5 @@
+import { Company, WorkLocation } from '@/types';
+
 type Post = {
   _id: string;
   title: string;
@@ -11,13 +13,17 @@ type Post = {
     };
   };
   salary: Salary;
-  company: {
-    _id: string;
-    name: string;
-  };
+  company: Partial<Company>;
   description: any;
   skillTags: Array<Skill>;
-  locations: any;
+  locations: WorkLocation[];
+  workplaceType: 'remote' | 'on-site' | 'hybrid';
+  experienceLevel:
+    | 'Internship'
+    | 'Entry level'
+    | 'Associate'
+    | 'Mid-Senior level'
+    | 'Director';
   verficationStatus: string;
   createdAt: string;
   updatedAt: string;

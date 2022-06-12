@@ -4,7 +4,9 @@ import { HeaderPost } from '@/components/post/Header';
 import ListPost from '@/components/post/ListPost';
 import { Post } from '@/models/post';
 import { Button, Card, Col, Input, Row, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
@@ -27,6 +29,7 @@ export const PostPage = (props: Props) => {
   const [companyOption, setCompanyOption] = useState<Array<FilterOption>>([]);
   const [categoryOption, setCategoryOption] = useState<Array<FilterOption>>([]);
   const [query, setQuery] = useState('');
+
   const [selectedCompany, setSelectedCompany] = useState<
     Array<String | Number>
   >([]);
@@ -114,6 +117,8 @@ export const PostPage = (props: Props) => {
     fetchData();
     getFilterOption();
   }, []);
+
+  useEffect(() => {}, []);
 
   return (
     <div>
