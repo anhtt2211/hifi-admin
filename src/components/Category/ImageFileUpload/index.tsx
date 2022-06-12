@@ -1,20 +1,16 @@
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, message, Typography, Upload } from 'antd';
+import { Button, message, Upload } from 'antd';
 import { RcFile } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 import React, { useState } from 'react';
 
-interface IImageFileUploadProps {
+interface ImageUploadProps {
   value?: RcFile[];
   onChange?: (value: RcFile[]) => void;
 }
 
-const ImageFileUpload: React.FC<IImageFileUploadProps> = ({
-  value,
-  onChange,
-}) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange }) => {
   const [imageFiles, setImageFiles] = useState<RcFile[]>([]);
-
   const onRemove = (file: UploadFile<unknown>) => {
     if (!value) return;
     const index = value.findIndex((f) => f.uid === file.uid);
@@ -28,11 +24,10 @@ const ImageFileUpload: React.FC<IImageFileUploadProps> = ({
     });
     onChange?.(newFileList);
   };
-
   const beforeUpload = (file: RcFile) => {
     const isImage = file.type.startsWith('image');
     if (!isImage) {
-      message.error(`${file.name} is not a image file`);
+      message.error(`${file.name} is not a png file`);
       return;
     }
     if (value) value = [];
@@ -40,19 +35,17 @@ const ImageFileUpload: React.FC<IImageFileUploadProps> = ({
     onChange?.([file]);
     return false;
   };
+
   return (
     <Upload
       name="file"
-      maxCount={1}
       fileList={value || imageFiles}
       beforeUpload={beforeUpload}
       onRemove={onRemove}
     >
-      <Button type="default" icon={<UploadOutlined />}>
-        Upload
-      </Button>
+      <Button icon={<UploadOutlined />}>Click to upload</Button>
     </Upload>
   );
 };
 
-export default ImageFileUpload;
+export default ImageUpload;

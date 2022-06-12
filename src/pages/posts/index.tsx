@@ -1,12 +1,9 @@
 import postApi from '@/api/postApi';
 import CheckboxMenu from '@/components/commons/CheckboxMenu';
-import { HeaderPost } from '@/components/post/Header';
 import ListPost from '@/components/post/ListPost';
 import { Post } from '@/models/post';
 import { Button, Card, Col, Input, Row, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
-import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
@@ -122,9 +119,7 @@ export const PostPage = (props: Props) => {
 
   return (
     <div>
-      <Row>
-        <HeaderPost />
-      </Row>
+      <h1 className="heading">Posts list</h1>
       <Card>
         <Row gutter={[20, 20]}>
           <Col span={6}>

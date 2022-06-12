@@ -4,6 +4,7 @@ import { Category } from '@/types';
 import { Button, Card, Form, Input, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ImageUpload from '../ImageFileUpload';
 import ImageFileUpload from '../ImageFileUpload';
 
 interface IProps {
@@ -106,12 +107,15 @@ const AddCategoryForm = (props: IProps) => {
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: 'Please input category name!' }]}
+          rules={[{ required: true, message: 'Please enter category name!' }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Image" name="image">
-          <ImageFileUpload />
+        <Form.Item
+          name="image"
+          rules={[{ required: true, message: 'Please upload category image!' }]}
+        >
+          <ImageUpload />
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit" type="primary" size="large" block>

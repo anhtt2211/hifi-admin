@@ -27,7 +27,7 @@ export const AppLayout = () => {
         location={{
           pathname,
         }}
-        primaryColor="#6D5CE8"
+        primaryColor="#446FFC"
         route={menuItems}
         headerTitleRender={(logo: any, title: any) => (
           <Link to="/" onClick={() => setPathname('/')}>
