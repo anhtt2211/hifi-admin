@@ -12,11 +12,11 @@ import { UserPage } from '@/pages/users/index';
 import Profile from '@/pages/profile';
 
 export const adminRoutes: IRoute[] = [
-  // {
-  //   path: '/',
-  //   exact: true,
-  //   page: <Welcome />,
-  // },
+  {
+    path: '/',
+    exact: true,
+    page: <Welcome />,
+  },
   // {
   //   path: '/users',
   //   exact: true,
