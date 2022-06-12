@@ -23,10 +23,10 @@ const Categories = () => {
     //   .then((res) => setData(res.data.data))
     //   .catch((err) => console.log(err));
   }, []);
+  console.log(categoryState);
 
-  useEffect(() => {
-    console.log(categoryState);
-  }, [categoryState]);
+  // useEffect(() => {
+  // }, [categoryState]);
   return (
     <div>
       <h1 className="heading">Category list</h1>

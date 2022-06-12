@@ -15,10 +15,10 @@ export const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    fetchCategoriesRequest: (
-      state: CategoryState,
-      action: PayloadAction<any>,
-    ) => {},
+    fetchCategoriesRequest: () =>
+      // state: CategoryState,
+      // action: PayloadAction<any>,
+      {},
     fetchCategoriesSuccess: (
       state: CategoryState,
       action: PayloadAction<ListResponse<Category>>,

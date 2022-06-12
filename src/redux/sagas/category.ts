@@ -19,6 +19,6 @@ function* fetchCategories(action: any) {
   }
 }
 
-export default function* userSaga() {
+export default function* categoriesSaga() {
   yield takeLatest(fetchCategoriesRequest.type, fetchCategories);
 }
