@@ -17,11 +17,6 @@ export const adminRoutes: IRoute[] = [
     exact: true,
     page: <Welcome />,
   },
-  // {
-  //   path: '/users',
-  //   exact: true,
-  //   page: <UserPage />,
-  // },
   {
     path: '/posts',
     exact: true,

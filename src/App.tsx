@@ -23,7 +23,6 @@ export default function App() {
     if (authState.auth || accessToken) {
       setLayout(
         <Route element={<AppLayout />}>
-          <Route path="/" element={<Navigate replace to="/posts" />} />
           {adminRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.page} />
           ))}
