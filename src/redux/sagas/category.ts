@@ -10,7 +10,7 @@ import {
 function* fetchCategories(action: any) {
   try {
     const response: Category[] = yield call(categorytApi.getAllCategories);
-
+    // @ts-ignore
     yield put(fetchCategoriesSuccess(response.data));
   } catch (error) {
     console.log(error);

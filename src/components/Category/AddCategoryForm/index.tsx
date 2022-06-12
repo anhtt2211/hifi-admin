@@ -49,7 +49,7 @@ const AddCategoryForm = () => {
           handleSubmit(url);
         });
     } catch (err) {
-      message.error(err);
+      message.error('Error');
     } finally {
       setIsLoading(false);
     }
